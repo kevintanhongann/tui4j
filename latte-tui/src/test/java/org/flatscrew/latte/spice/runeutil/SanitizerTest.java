@@ -42,7 +42,15 @@ public class SanitizerTest {
                 new Object[]{"hel\tlo", "hello"},
                 new Object[]{"he\n\nl\tlo", "heXXXXllo"},
                 new Object[]{"he\tl\n\nlo", "helXXXXlo"},
-                new Object[]{new String(new char[]{'h', 'e', 'l', 'l', 'o', (char) 65533}), "hello"}
+                new Object[]{new String(new char[]{'h', 'e', 'l', 'l', 'o', (char) 65533}), "hello"},
+                new Object[]{"(hello)", "(hello)"},
+                new Object[]{"[brackets]", "[brackets]"},
+                new Object[]{"{braces}", "{braces}"},
+                new Object[]{"func(a, b)", "func(a, b)"},
+                new Object[]{"array[0]", "array[0]"},
+                new Object[]{"map{key}", "map{key}"},
+                new Object[]{"`code`", "`code`"},
+                new Object[]{"hello(world)[test]{data}`code`!", "hello(world)[test]{data}`code`!"}
         );
     }
 }
