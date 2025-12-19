@@ -6,12 +6,13 @@
     <parent>
         <groupId>io.github.williamagh</groupId>
         <artifactId>latte-parent</artifactId>
-        <version>0.2.0</version>
+        <version>0.2.1</version>
     </parent>
 
     <artifactId>latte-tui</artifactId>
     <name>Latte TUI Core</name>
     <description>Terminal User Interface framework for Java - a port of Go's Bubble Tea</description>
+    <url>https://github.com/WilliamAGH/latte-v2</url>
 
     <properties>
         <jline.version>3.26.1</jline.version>

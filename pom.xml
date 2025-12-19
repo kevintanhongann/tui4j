@@ -6,7 +6,7 @@
 
     <groupId>io.github.williamagh</groupId>
     <artifactId>latte-parent</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.1</version>
     <packaging>pom</packaging>
     <name>Latte TUI</name>
     <description>Terminal User Interface framework for Java - a port of Go's Bubble Tea</description>
