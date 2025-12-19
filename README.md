@@ -1,5 +1,7 @@
 # Latte
 
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.williamagh/latte-tui)](https://central.sonatype.com/artifact/io.github.williamagh/latte-tui)
+
 <img src="images/latte-logo.png" width="250">
 
 > Artwork by [m.art.i](https://www.instagram.com/m.art.i)
