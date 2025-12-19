@@ -2,7 +2,14 @@ package org.flatscrew.latte;
 
 import org.flatscrew.latte.ansi.Code;
 import org.flatscrew.latte.ansi.Truncate;
+import org.flatscrew.latte.message.CopyToClipboardMessage;
+import org.flatscrew.latte.message.DisableMouseMessage;
+import org.flatscrew.latte.message.EnableMouseAllMotionMessage;
+import org.flatscrew.latte.message.EnableMouseCellMotionMessage;
 import org.flatscrew.latte.message.PrintLineMessage;
+import org.flatscrew.latte.message.ResetMouseCursorMessage;
+import org.flatscrew.latte.message.SetMouseCursorPointerMessage;
+import org.flatscrew.latte.message.SetMouseCursorTextMessage;
 import org.flatscrew.latte.message.SetWindowTitleMessage;
 import org.flatscrew.latte.message.WindowSizeMessage;
 import org.jline.terminal.Terminal;
@@ -30,7 +37,7 @@ public class StandardRenderer implements Renderer {
     private final ScheduledExecutorService ticker;
     private final long frameTime;
     private String[] lastRenderedLines = new String[0];
-    private final List<String> queuedMessageLines = new ArrayList<>();  // Add this field
+    private final List<String> queuedMessageLines = new ArrayList<>();
 
     private int linesRendered = 0;
     private int width;
@@ -51,13 +58,10 @@ public class StandardRenderer implements Renderer {
             return t;
         });
 
-        width = 0;
         try {
-            // Get terminal size
             this.width = terminal.getWidth();
             this.height = terminal.getHeight();
-        } catch (Exception e) {
-            // Fallback to some reasonable defaults if we can't get the size
+        } catch (Throwable t) {
             this.width = 80;
             this.height = 24;
         }
@@ -94,23 +98,19 @@ public class StandardRenderer implements Renderer {
             StringBuilder outputBuffer = new StringBuilder();
             String[] newLines = buffer.toString().split("\n");
 
-            // if height is known and content exceeds it, trim from top
             if (height > 0 && newLines.length > height) {
                 newLines = Arrays.copyOfRange(newLines, newLines.length - height, newLines.length);
             }
 
-            // move cursor to start of render area
             if (linesRendered > 1) {
                 outputBuffer.append("\033[").append(linesRendered - 1).append("A");
             }
 
-            // first handle queued messages if we're not in alt screen
             boolean flushQueuedMessages = !queuedMessageLines.isEmpty() && !isInAltScreen;
             if (flushQueuedMessages) {
                 for (String line : queuedMessageLines) {
-                    // add line and erase to end if needed
                     if (width > 0 && line.length() < width) {
-                        outputBuffer.append(line).append("\033[K"); // EraseLineRight
+                        outputBuffer.append(line).append("\033[K");
                     } else {
                         outputBuffer.append(line);
                     }
@@ -119,27 +119,24 @@ public class StandardRenderer implements Renderer {
                 queuedMessageLines.clear();
             }
 
-            // Paint new lines
             for (int i = 0; i < newLines.length; i++) {
-                boolean canSkip = !flushQueuedMessages && // Skip only if we haven't flushed messages
+                boolean canSkip = !flushQueuedMessages &&
                         lastRenderedLines.length > i &&
                         newLines[i].equals(lastRenderedLines[i]);
 
                 if (canSkip) {
                     if (i < newLines.length - 1) {
-                        outputBuffer.append("\033[B"); // Move down one line
+                        outputBuffer.append("\033[B");
                     }
                     continue;
                 }
 
                 String line = newLines[i];
 
-                // Truncate lines wider than the width of the window to avoid wrapping
                 if (this.width > 0) {
                     line = Truncate.truncate(line, this.width, "");
                 }
 
-                // Clear line and write new content
                 if (width > 0 && line.length() < width) {
                     outputBuffer.append("\r").append(line).append("\033[K");
                 } else {
@@ -151,12 +148,10 @@ public class StandardRenderer implements Renderer {
                 }
             }
 
-            // Clear any remaining lines from previous render
             if (linesRendered > newLines.length) {
-                outputBuffer.append("\033[J"); // Clear screen below
+                outputBuffer.append("\033[J");
             }
 
-            // Ensure cursor is at the start of the last line
             outputBuffer.append("\r");
 
             terminal.writer().print(outputBuffer);
@@ -171,22 +166,15 @@ public class StandardRenderer implements Renderer {
         }
     }
 
+    @Override
     public void write(String view) {
         if (!isRunning) return;
 
-        // FIXME: copied from original golang code
-        // If an empty string was passed we should clear existing output and
-        // rendering nothing. Rather than introduce additional state to manage
-        // this, we render a single space as a simple (albeit less correct)
-        // solution.
-        String string = view;
-        if (string.isEmpty()) {
-            string = " ";
-        }
+        String string = view.isEmpty() ? " " : view;
 
         renderLock.lock();
         try {
-            buffer.setLength(0);  // Clear existing buffer
+            buffer.setLength(0);
             buffer.append(string);
         } finally {
             renderLock.unlock();
@@ -215,48 +203,77 @@ public class StandardRenderer implements Renderer {
         }
     }
 
+    private void writeToTerminalUnlocked(String value) {
+        terminal.writer().print(value);
+        terminal.writer().flush();
+    }
+
+    private void writeToTerminal(String value) {
+        renderLock.lock();
+        try {
+            writeToTerminalUnlocked(value);
+        } finally {
+            renderLock.unlock();
+        }
+    }
+
     @Override
+    // Bubble Tea: seeks to replicate charmbracelet/bubbletea/standard_renderer.go enableMouseCellMotion behavior.
+    public void enableMouseCellMotion() {
+        writeToTerminal(Code.EnableMouseCellMotion.value());
+    }
+
+    @Override
+    // Bubble Tea: seeks to replicate charmbracelet/bubbletea/standard_renderer.go disableMouseCellMotion behavior.
+    public void disableMouseCellMotion() {
+        writeToTerminal(Code.DisableMouseCellMotion.value());
+    }
+
+    @Override
+    // Bubble Tea: seeks to replicate charmbracelet/bubbletea/standard_renderer.go enableMouseAllMotion behavior.
     public void enableMouseAllMotion() {
-        renderLock.lock();
-        try {
-            terminal.writer().print(Code.EnableMouseAllMotion.value());
-            terminal.writer().flush();
-        } finally {
-            renderLock.unlock();
-        }
+        writeToTerminal(Code.EnableMouseAllMotion.value());
     }
 
     @Override
+    // Bubble Tea: seeks to replicate charmbracelet/bubbletea/standard_renderer.go disableMouseAllMotion behavior.
     public void disableMouseAllMotion() {
-        renderLock.lock();
-        try {
-            terminal.writer().print(Code.DisableMouseAllMotion.value());
-            terminal.writer().flush();
-        } finally {
-            renderLock.unlock();
-        }
+        writeToTerminal(Code.DisableMouseAllMotion.value());
     }
 
     @Override
+    // Bubble Tea: seeks to replicate charmbracelet/bubbletea/standard_renderer.go enableMouseSGRMode behavior.
     public void enableMouseSGRMode() {
-        renderLock.lock();
-        try {
-            terminal.writer().print(Code.EnableMouseSgrExt.value());
-            terminal.writer().flush();
-        } finally {
-            renderLock.unlock();
-        }
+        writeToTerminal(Code.EnableMouseSgrExt.value());
     }
 
     @Override
+    // Bubble Tea: seeks to replicate charmbracelet/bubbletea/standard_renderer.go disableMouseSGRMode behavior.
     public void disableMouseSGRMode() {
-        renderLock.lock();
-        try {
-            terminal.writer().print(Code.DisableMouseSgrExt.value());
-            terminal.writer().flush();
-        } finally {
-            renderLock.unlock();
-        }
+        writeToTerminal(Code.DisableMouseSgrExt.value());
+    }
+
+    @Override
+    // Latte extension; no Bubble Tea equivalent.
+    public void setMouseCursorText() {
+        writeToTerminal(Code.SetMouseTextCursor.value());
+    }
+
+    @Override
+    // Latte extension; no Bubble Tea equivalent.
+    public void setMouseCursorPointer() {
+        writeToTerminal(Code.SetMousePointerCursor.value());
+    }
+
+    @Override
+    // Latte extension; no Bubble Tea equivalent.
+    public void resetMouseCursor() {
+        writeToTerminal(Code.ResetMouseCursor.value());
+    }
+
+    @Override
+    public void copyToClipboard(String text) {
+        writeToTerminal(Code.copyToClipboard(text));
     }
 
     @Override
@@ -278,9 +295,7 @@ public class StandardRenderer implements Renderer {
 
     @Override
     public void enterAltScreen() {
-        if (isInAltScreen) {
-            return;
-        }
+        if (isInAltScreen) return;
 
         renderLock.lock();
         try {
@@ -290,7 +305,6 @@ public class StandardRenderer implements Renderer {
             terminal.puts(InfoCmp.Capability.clear_screen);
             terminal.puts(InfoCmp.Capability.cursor_home);
 
-            // Force a complete repaint when entering alt screen
             repaint();
             needsRender = true;
             isInAltScreen = true;
@@ -303,15 +317,12 @@ public class StandardRenderer implements Renderer {
 
     @Override
     public void exitAltScreen() {
-        if (!altScreen()) {
-            return;
-        }
+        if (!altScreen()) return;
 
         renderLock.lock();
         try {
             terminal.puts(InfoCmp.Capability.exit_ca_mode);
 
-            // Force a repaint when exiting alt screen
             repaint();
             needsRender = true;
             isInAltScreen = false;
@@ -337,8 +348,7 @@ public class StandardRenderer implements Renderer {
         renderLock.lock();
         try {
             isReportFocus = true;
-            terminal.writer().print(Code.EnableFocusReporting.value());
-            terminal.writer().flush();
+            writeToTerminalUnlocked(Code.EnableFocusReporting.value());
         } finally {
             renderLock.unlock();
         }
@@ -349,8 +359,7 @@ public class StandardRenderer implements Renderer {
         renderLock.lock();
         try {
             isReportFocus = false;
-            terminal.writer().print(Code.DisableFocusReporting.value());
-            terminal.writer().flush();
+            writeToTerminalUnlocked(Code.DisableFocusReporting.value());
         } finally {
             renderLock.unlock();
         }
@@ -383,6 +392,24 @@ public class StandardRenderer implements Renderer {
             }
         } else if (msg instanceof SetWindowTitleMessage windowTitleMessage) {
             setWindowTitle(windowTitleMessage.title());
+        } else if (msg instanceof EnableMouseCellMotionMessage) {
+            enableMouseCellMotion();
+            enableMouseSGRMode();
+        } else if (msg instanceof EnableMouseAllMotionMessage) {
+            enableMouseAllMotion();
+            enableMouseSGRMode();
+        } else if (msg instanceof DisableMouseMessage) {
+            disableMouseSGRMode();
+            disableMouseCellMotion();
+            disableMouseAllMotion();
+        } else if (msg instanceof SetMouseCursorTextMessage) {
+            setMouseCursorText();
+        } else if (msg instanceof SetMouseCursorPointerMessage) {
+            setMouseCursorPointer();
+        } else if (msg instanceof ResetMouseCursorMessage) {
+            resetMouseCursor();
+        } else if (msg instanceof CopyToClipboardMessage copyToClipboardMessage) {
+            copyToClipboard(copyToClipboardMessage.text());
         } else if (msg instanceof WindowSizeMessage windowSizeMessage) {
             this.width = windowSizeMessage.width();
             this.height = windowSizeMessage.height();
