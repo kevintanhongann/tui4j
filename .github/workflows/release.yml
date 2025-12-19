@@ -23,6 +23,19 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: GPG_PASSPHRASE
 
+      - name: Extract version from tag
+        id: version
+        run: |
+          # Remove 'v' prefix if present (v0.2.3 -> 0.2.3)
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "📦 Release version: $VERSION"
+
+      - name: Set release version in pom files
+        run: |
+          mvn versions:set -DnewVersion=${{ steps.version.outputs.VERSION }} -DgenerateBackupPoms=false
+          echo "✅ Updated all pom.xml files to version ${{ steps.version.outputs.VERSION }}"
+
       - name: Build and test
         run: mvn test -pl latte-tui
 
