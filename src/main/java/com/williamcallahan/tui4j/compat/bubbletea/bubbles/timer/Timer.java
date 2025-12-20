@@ -98,7 +98,11 @@ public class Timer implements Model {
             }
 
             timeout = timeout.minus(interval);
-            return UpdateResult.from(this, Command.batch(tick(), timedoutCommand()));
+            Command timedout = timedoutCommand();
+            if (timedout != null) {
+                return UpdateResult.from(this, Command.batch(tick(), timedout));
+            }
+            return UpdateResult.from(this, tick());
         }
 
         return UpdateResult.from(this);

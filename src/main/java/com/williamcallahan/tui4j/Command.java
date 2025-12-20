@@ -20,6 +20,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -36,11 +37,17 @@ public interface Command {
     Message execute();
 
     static Command batch(Collection<Command> commands) {
-        return () -> new BatchMessage(commands.toArray(new Command[0]));
+        Command[] filteredCommands = commands.stream()
+                .filter(Objects::nonNull)
+                .toArray(Command[]::new);
+        return () -> new BatchMessage(filteredCommands);
     }
 
     static Command batch(Command... commands) {
-        return () -> new BatchMessage(commands);
+        Command[] filteredCommands = Arrays.stream(commands)
+                .filter(Objects::nonNull)
+                .toArray(Command[]::new);
+        return () -> new BatchMessage(filteredCommands);
     }
 
     static Command sequence(Command... commands) {

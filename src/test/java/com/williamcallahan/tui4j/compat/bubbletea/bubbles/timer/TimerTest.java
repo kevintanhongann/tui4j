@@ -35,15 +35,15 @@ class TimerTest {
     }
 
     @Test
-    void testTickDecrementsTimeoutAndBatchesCommands() {
+    void testTickDecrementsTimeout() {
         Timer timer = new Timer(Duration.ofSeconds(1), Duration.ofMillis(250));
         TickMessage tickMessage = new TickMessage(timer.id(), false, 0);
 
         UpdateResult<? extends com.williamcallahan.tui4j.Model> result = timer.update(tickMessage);
 
         assertThat(timer.timeout()).isEqualTo(Duration.ofMillis(750));
-        Message batch = result.command().execute();
-        assertThat(batch).isInstanceOf(BatchMessage.class);
+        // When not timed out, only a tick command is returned (not a batch)
+        assertThat(result.command()).isNotNull();
     }
 
     @Test
