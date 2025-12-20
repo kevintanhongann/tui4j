@@ -36,6 +36,8 @@ import org.jline.utils.InfoCmp;
 import org.jline.utils.Signals;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletableFuture;
@@ -43,12 +45,16 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Runs the TUI event loop and manages terminal IO.
  * tui4j: src/main/java/com/williamcallahan/tui4j/Program.java
  */
 public class Program {
+
+    private static final Logger logger = Logger.getLogger(Program.class.getName());
 
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
     private final CountDownLatch initLatch = new CountDownLatch(1);
@@ -459,16 +465,29 @@ public class Program {
         if (url == null || url.isBlank()) {
             return;
         }
+        String trimmedUrl = url.trim();
+        if (trimmedUrl.startsWith("-")) {
+            logger.fine("Refusing to open URL starting with '-': " + trimmedUrl);
+            return;
+        }
+        URI uri;
+        try {
+            uri = new URI(trimmedUrl);
+        } catch (URISyntaxException e) {
+            logger.log(Level.FINE, "Invalid URL: " + trimmedUrl, e);
+            return;
+        }
         try {
             String os = System.getProperty("os.name", "").toLowerCase();
             if (os.contains("mac")) {
-                new ProcessBuilder("open", url).start();
+                new ProcessBuilder("open", uri.toString()).start();
             } else if (os.contains("nix") || os.contains("nux") || os.contains("linux")) {
-                new ProcessBuilder("xdg-open", url).start();
+                new ProcessBuilder("xdg-open", uri.toString()).start();
             } else if (os.contains("win")) {
-                new ProcessBuilder("rundll32", "url.dll,FileProtocolHandler", url).start();
+                new ProcessBuilder("rundll32", "url.dll,FileProtocolHandler", uri.toString()).start();
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            logger.log(Level.FINE, "Failed to open URL: " + uri, e);
         }
     }
 }
