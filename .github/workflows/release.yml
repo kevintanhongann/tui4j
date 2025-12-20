@@ -42,4 +42,4 @@ jobs:
         run: ./gradlew build examplesClasses -Pversion=${{ steps.version.outputs.VERSION }}
 
       - name: Deploy to Maven Central
-        run: ./gradlew publish -Pversion=${{ steps.version.outputs.VERSION }}
+        run: ./gradlew publishAllPublicationsToCentralPortal -Pversion=${{ steps.version.outputs.VERSION }}
