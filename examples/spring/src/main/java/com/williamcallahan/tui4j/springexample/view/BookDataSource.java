@@ -1,11 +1,11 @@
-package org.flatscrew.latte.springexample.view;
+package com.williamcallahan.tui4j.springexample.view;
 
 import lombok.RequiredArgsConstructor;
-import org.flatscrew.latte.spice.list.FetchedItems;
-import org.flatscrew.latte.spice.list.FilteredItem;
-import org.flatscrew.latte.spice.list.ListDataSource;
-import org.flatscrew.latte.springexample.model.Book;
-import org.flatscrew.latte.springexample.repository.BookRepository;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.FetchedItems;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.FilteredItem;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.ListDataSource;
+import com.williamcallahan.tui4j.springexample.model.Book;
+import com.williamcallahan.tui4j.springexample.repository.BookRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -13,6 +13,10 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Example program for book data source.
+ * tui4j: examples/spring/src/main/java/com/williamcallahan/tui4j/springexample/view/BookDataSource.java
+ */
 @Component
 @RequiredArgsConstructor
 public class BookDataSource implements ListDataSource {

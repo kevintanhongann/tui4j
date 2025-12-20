@@ -1,12 +1,16 @@
-package org.flatscrew.latte.springexample.view;
+package com.williamcallahan.tui4j.springexample.view;
 
 import lombok.RequiredArgsConstructor;
-import org.flatscrew.latte.spice.list.DefaultItem;
-import org.flatscrew.latte.springexample.model.Author;
-import org.flatscrew.latte.springexample.model.Book;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.DefaultItem;
+import com.williamcallahan.tui4j.springexample.model.Author;
+import com.williamcallahan.tui4j.springexample.model.Book;
 
 import java.util.List;
 
+/**
+ * Example program for book item.
+ * tui4j: examples/spring/src/main/java/com/williamcallahan/tui4j/springexample/view/BookItem.java
+ */
 @RequiredArgsConstructor
 public class BookItem implements DefaultItem {
 

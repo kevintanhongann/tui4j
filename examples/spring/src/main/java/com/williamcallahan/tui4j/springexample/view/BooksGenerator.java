@@ -1,13 +1,17 @@
-package org.flatscrew.latte.springexample.view;
+package com.williamcallahan.tui4j.springexample.view;
 
 import com.github.javafaker.Faker;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.flatscrew.latte.springexample.model.Author;
-import org.flatscrew.latte.springexample.model.Book;
-import org.flatscrew.latte.springexample.repository.BookRepository;
+import com.williamcallahan.tui4j.springexample.model.Author;
+import com.williamcallahan.tui4j.springexample.model.Book;
+import com.williamcallahan.tui4j.springexample.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
+/**
+ * Example program for books generator.
+ * tui4j: examples/spring/src/main/java/com/williamcallahan/tui4j/springexample/view/BooksGenerator.java
+ */
 @Service
 @RequiredArgsConstructor
 public class BooksGenerator {

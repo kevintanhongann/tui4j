@@ -1,4 +1,4 @@
-package org.flatscrew.latte.springexample.model;
+package com.williamcallahan.tui4j.springexample.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +10,10 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * Example program for author.
+ * tui4j: examples/spring/src/main/java/com/williamcallahan/tui4j/springexample/model/Author.java
+ */
 @Entity
 @Table(name = "authors")
 @Data

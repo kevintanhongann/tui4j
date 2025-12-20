@@ -1,4 +1,4 @@
-package org.flatscrew.latte.springexample.model;
+package com.williamcallahan.tui4j.springexample.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,6 +16,10 @@ import lombok.Data;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Example program for book.
+ * tui4j: examples/spring/src/main/java/com/williamcallahan/tui4j/springexample/model/Book.java
+ */
 @Entity
 @Table(name = "books")
 @Data

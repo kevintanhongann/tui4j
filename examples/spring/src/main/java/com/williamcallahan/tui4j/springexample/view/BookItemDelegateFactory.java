@@ -1,10 +1,14 @@
-package org.flatscrew.latte.springexample.view;
+package com.williamcallahan.tui4j.springexample.view;
 
-import org.flatscrew.latte.spice.help.KeyMap;
-import org.flatscrew.latte.spice.key.Binding;
-import org.flatscrew.latte.spice.list.DefaultDelegate;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.help.KeyMap;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.DefaultDelegate;
 import org.springframework.stereotype.Component;
 
+/**
+ * Example program for book item delegate factory.
+ * tui4j: examples/spring/src/main/java/com/williamcallahan/tui4j/springexample/view/BookItemDelegateFactory.java
+ */
 @Component
 public class BookItemDelegateFactory {
 

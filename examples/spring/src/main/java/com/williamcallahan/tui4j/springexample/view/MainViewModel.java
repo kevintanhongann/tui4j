@@ -1,24 +1,28 @@
-package org.flatscrew.latte.springexample.view;
+package com.williamcallahan.tui4j.springexample.view;
 
-import org.flatscrew.latte.Command;
-import org.flatscrew.latte.Message;
-import org.flatscrew.latte.Model;
-import org.flatscrew.latte.UpdateResult;
-import org.flatscrew.latte.cream.Position;
-import org.flatscrew.latte.cream.Style;
-import org.flatscrew.latte.cream.border.StandardBorder;
-import org.flatscrew.latte.cream.color.Color;
-import org.flatscrew.latte.cream.join.HorizontalJoinDecorator;
-import org.flatscrew.latte.cream.join.VerticalJoinDecorator;
-import org.flatscrew.latte.message.KeyPressMessage;
-import org.flatscrew.latte.message.WindowSizeMessage;
-import org.flatscrew.latte.spice.key.Binding;
-import org.flatscrew.latte.spice.list.FilterState;
-import org.flatscrew.latte.spice.list.List;
-import org.flatscrew.latte.spice.spinner.Spinner;
-import org.flatscrew.latte.spice.spinner.SpinnerType;
+import com.williamcallahan.tui4j.Command;
+import com.williamcallahan.tui4j.Message;
+import com.williamcallahan.tui4j.Model;
+import com.williamcallahan.tui4j.UpdateResult;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.StandardBorder;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.Color;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.join.HorizontalJoinDecorator;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.join.VerticalJoinDecorator;
+import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.FilterState;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.List;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner.Spinner;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner.SpinnerType;
 import org.springframework.stereotype.Component;
 
+/**
+ * Example program for main view model.
+ * tui4j: examples/spring/src/main/java/com/williamcallahan/tui4j/springexample/view/MainViewModel.java
+ */
 @Component
 public class MainViewModel implements Model {
 
