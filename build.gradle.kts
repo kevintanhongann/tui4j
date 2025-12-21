@@ -58,7 +58,7 @@ dependencies {
     api(libs.org.jline.jline.terminal.jni)
     api(libs.com.ibm.icu.icu4j)
     api(libs.org.apache.commons.commons.text)
-    api(libs.org.apache.commons.commons.lang3) // CVE-2024-48949 fix: explicit 3.17.0+
+    api(libs.org.apache.commons.commons.lang3)
     
     testImplementation(libs.org.junit.jupiter.junit.jupiter)
     testImplementation(libs.org.mockito.mockito.core)
@@ -213,7 +213,7 @@ publishing {
             
             pom {
                 name.set("TUI4J")
-                description.set("Terminal User Interface framework for Java - a port of Bubble Tea")
+                description.set("TUI4J: Terminal User Interface library for Java that includes Bubble Tea ported from Go")
                 url.set("https://github.com/WilliamAGH/tui4j")
 
                 licenses {

@@ -4,11 +4,11 @@
 
 **TUI4J** (Terminal User Interface for Java) is a Java TUI framework inspired by [Bubble Tea](https://github.com/charmbracelet/bubbletea). It includes a compatibility module that mirrors the original Go API for developers to Java.
 
-This is a maintained fork of the original Latte with bug fixes and improvements welcome and encouraged! Fork maintained by [William Callahan](https://williamcallahan.com).
+This is a maintained fork of the original [Latte](https://github.com/flatscrew/latte) with bug fixes and improvements welcome and encouraged! Fork maintained by [William Callahan](https://williamcallahan.com).
 
 ![Demo](assets/demo-tape.gif "Demo")
 
-## Compatibility with Bubble Tea 
+## Compatibility with Bubble Tea
 
 TUI4J includes a compatibility layer for Bubble Tea, which is a trademark of Charmbracelet, Inc. The original Go implementation is licensed under MIT.
 
@@ -26,14 +26,14 @@ Check out [this page](STATUS.md) to see porting status from the original Bubble 
 <dependency>
     <groupId>com.williamcallahan</groupId>
     <artifactId>tui4j</artifactId>
-    <version>0.2.4</version>
+    <version>0.2.5</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'com.williamcallahan:tui4j:0.2.4'
+implementation 'com.williamcallahan:tui4j:0.2.5'
 ```
 
 ## Examples
@@ -50,7 +50,7 @@ See all the [examples](examples) ported so far and some new ones as well!
 
 For this tutorial, the original author made a coffee ordering application (the non-annotated source code is available [on GitHub](https://github.com/williamcallahan/tui4j/tree/main/examples/generic/src/main/java/com/williamcallahan/tui4j/examples/demo)).
 
-Everything starts with a **model** – an implementation of the `com.williamcallahan.tui4j.Model` interface that describes the application state and three simple methods on that model:
+Everything starts with a **model** – an implementation of the `com.williamcallahan.tui4j.compat.bubbletea.Model` interface that describes the application state and three simple methods on that model:
 
 - **init**, a method that returns an initial command for the application to run,
 - **update**, a method that handles incoming events and updates the model accordingly,
@@ -71,10 +71,10 @@ graph TD
 
 ### The Model
 
-So let's start by defining our model which will store our application's state. It can be any type implementing the `com.williamcallahan.tui4j.Model` interface.
+So let's start by defining our model which will store our application's state. It can be any type implementing the `com.williamcallahan.tui4j.compat.bubbletea.Model` interface.
 
 ```java
-import com.williamcallahan.tui4j.Model;
+import com.williamcallahan.tui4j.compat.bubbletea.Model;
 
 public class Demo implements Model {
     private final static String[] CHOICES = {"Espresso", "Americano", "Latte"};
@@ -107,7 +107,7 @@ Next up is the update method. It is called when "things happen". Its job is to l
 
 In our case, when a user presses the down arrow, `update`'s job is to notice that the down arrow was pressed and move the cursor accordingly (or not).
 
-The "something happened" comes in the form of a `Message`, which can be any type that implements the `com.williamcallahan.tui4j.Message` interface. Messages are the result of some I/O that took place, such as a keypress, timer tick, or a response from a server.
+The "something happened" comes in the form of a `Message`, which can be any type that implements the `com.williamcallahan.tui4j.compat.bubbletea.Message` interface. Messages are the result of some I/O that took place, such as a keypress, timer tick, or a response from a server.
 
 We usually figure out which type of `Message` we received with a regular if, but you can obviously come up with a more sophisticated switch.
 
@@ -199,7 +199,7 @@ public String view() {
 
 ### All Together Now
 
-The last step is to simply run our program. We pass our initial model as an argument for a new instance of `com.williamcallahan.tui4j.Program` and call the `run` method.
+The last step is to simply run our program. We pass our initial model as an argument for a new instance of `com.williamcallahan.tui4j.compat.bubbletea.Program` and call the `run` method.
 
 ```java
 public static void main(String[] args) {

@@ -36,7 +36,7 @@ jobs:
           # Remove 'v' prefix if present (v0.2.3 -> 0.2.3)
           VERSION="${GITHUB_REF_NAME#v}"
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-          echo "📦 Release version: $VERSION"
+          echo "Release version: $VERSION"
 
       - name: Build and test
         run: ./gradlew build examplesClasses -Pversion=${{ steps.version.outputs.VERSION }}

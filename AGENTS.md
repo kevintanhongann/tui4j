@@ -1,10 +1,9 @@
 ## ⚠️ PUBLIC API — NO BREAKING CHANGES
 
 This is a **published Maven Central library** with downstream consumers (Brief, others).
-- **100% backward compatibility required** for all refactors.
+- 100% backward compatibility required for all refactors.
 - Never remove or rename public classes, methods, or fields.
 - Never change method signatures, return types, or exception types.
-- Additive changes only; deprecate before removing (minimum 2 minor versions).
 - Run `./gradlew build` and confirm all tests pass before any PR.
 - When in doubt, do not change the public API.
 
@@ -38,7 +37,9 @@ This is a **published Maven Central library** with downstream consumers (Brief, 
 
 ### Architecture
 - TUI4J is a Java port of Go's **Bubble Tea** (https://github.com/charmbracelet/bubbletea) using The Elm Architecture.
-- Core pattern: `Model` interface with `init()`, `update(Message)`, `view()` methods.
+- Bubble Tea ports live under `com.williamcallahan.tui4j.compat.bubbletea/**`.
+- Native tui4j extensions live under `com.williamcallahan.tui4j/**` (non‑port utilities, messages, and helpers).
+- Core pattern (Bubble Tea): `Model` with `init()`, `update(Message)`, `view()`.
 - `src/` = core library; `examples/generic/` = example apps; `examples/spring/` = Spring integration.
 
 ### Upstream References
@@ -48,11 +49,20 @@ When porting or comparing behavior, consult these Charm repositories:
 - **Lip Gloss**: https://github.com/charmbracelet/lipgloss — styling, colors, borders, layout joining
 
 ### Package Mapping
-| Go (Charm)         | Java (TUI4J)                                     |
-|--------------------|--------------------------------------------------|
-| bubbletea          | com.williamcallahan.tui4j                        |
-| bubbles/*          | com.williamcallahan.tui4j.compat.bubbletea.bubbles.*|
-| lipgloss           | com.williamcallahan.tui4j.compat.bubbletea.lipgloss |
+| Go (Charm)              | Java (TUI4J)                                                |
+|-------------------------|-------------------------------------------------------------|
+| bubbletea (core)        | com.williamcallahan.tui4j.compat.bubbletea.*                |
+| bubbletea (input)       | com.williamcallahan.tui4j.compat.bubbletea.input.*          |
+| bubbletea (renderer)    | com.williamcallahan.tui4j.compat.bubbletea.render.*         |
+| bubbles/*               | com.williamcallahan.tui4j.compat.bubbletea.bubbles.*        |
+| lipgloss                | com.williamcallahan.tui4j.compat.bubbletea.lipgloss          |
+
+### Native tui4j Extensions (Non‑Port)
+- `com.williamcallahan.tui4j.ansi` — ANSI helpers, width/truncation, clipboard.
+- `com.williamcallahan.tui4j.input` — tui4j mouse selection/click utilities.
+- `com.williamcallahan.tui4j.message` — tui4j‑specific messages (clipboard, cursor, errors).
+- `com.williamcallahan.tui4j.runtime` — command execution helpers.
+- `com.williamcallahan.tui4j.term` — terminal info providers.
 
 ### Dependencies
 - **JLine 3** (org.jline): terminal I/O, raw mode, key parsing — https://github.com/jline/jline3
