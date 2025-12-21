@@ -1,8 +1,8 @@
-package com.williamcallahan.tui4j;
+package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
  * Pairs an updated model with an optional command.
- * tui4j: src/main/java/com/williamcallahan/tui4j/UpdateResult.java
+ * tui4j: src/main/java/com/williamcallahan/tui4j/compat/bubbletea/UpdateResult.java
  */
 public record UpdateResult<M extends Model>(M model, Command command) {
 

@@ -1,10 +1,10 @@
-package com.williamcallahan.tui4j.render;
+package com.williamcallahan.tui4j.compat.bubbletea.render;
 
-import com.williamcallahan.tui4j.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
 /**
  * Abstraction for rendering and terminal mode control.
- * tui4j: src/main/java/com/williamcallahan/tui4j/render/Renderer.java
+ * tui4j: src/main/java/com/williamcallahan/tui4j/compat/bubbletea/render/Renderer.java
  */
 public interface Renderer {
     // Start the renderer.
@@ -32,6 +32,13 @@ public interface Renderer {
     void showCursor();
     // Bubble Tea: seeks to replicate bubbletea/renderer.go hideCursor behavior.
     void hideCursor();
+
+    // enableMouseNormalTracking enables basic mouse reporting (click/wheel).
+    default void enableMouseNormalTracking() {
+    }
+    // disableMouseNormalTracking disables basic mouse reporting.
+    default void disableMouseNormalTracking() {
+    }
 
     // enableMouseCellMotion enables mouse click, release, wheel and motion
     // events if a mouse button is pressed (i.e., drag events).

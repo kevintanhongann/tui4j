@@ -1,4 +1,4 @@
-package com.williamcallahan.tui4j;
+package com.williamcallahan.tui4j.compat.bubbletea;
 
 import com.williamcallahan.tui4j.compat.bubbletea.message.BatchMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests test message.
- * tui4j: src/test/java/com/williamcallahan/tui4j/ProgramTest.java
+ * tui4j: src/test/java/com/williamcallahan/tui4j/compat/bubbletea/ProgramTest.java
  */
 class TestMessage implements Message {
 }

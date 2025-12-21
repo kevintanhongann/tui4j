@@ -1,4 +1,4 @@
-package com.williamcallahan.tui4j;
+package com.williamcallahan.tui4j.compat.bubbletea;
 
 import com.williamcallahan.tui4j.message.CopyToClipboardMessage;
 import com.williamcallahan.tui4j.message.OpenUrlMessage;
@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests command.
- * tui4j: src/test/java/com/williamcallahan/tui4j/CommandTest.java
+ * tui4j: src/test/java/com/williamcallahan/tui4j/compat/bubbletea/CommandTest.java
  */
 class CommandTest {
 

@@ -1,4 +1,4 @@
-package com.williamcallahan.tui4j;
+package com.williamcallahan.tui4j.compat.bubbletea;
 
 import com.williamcallahan.tui4j.compat.bubbletea.input.InputHandler;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseAction;
@@ -24,8 +24,8 @@ import com.williamcallahan.tui4j.message.OpenUrlMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.SequenceMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
-import com.williamcallahan.tui4j.render.Renderer;
-import com.williamcallahan.tui4j.render.StandardRenderer;
+import com.williamcallahan.tui4j.compat.bubbletea.render.Renderer;
+import com.williamcallahan.tui4j.compat.bubbletea.render.StandardRenderer;
 import com.williamcallahan.tui4j.runtime.CommandExecutor;
 import com.williamcallahan.tui4j.term.TerminalInfo;
 import com.williamcallahan.tui4j.term.jline.JLineTerminalInfoProvider;
@@ -50,7 +50,7 @@ import java.util.logging.Logger;
 
 /**
  * Runs the TUI event loop and manages terminal IO.
- * tui4j: src/main/java/com/williamcallahan/tui4j/Program.java
+ * tui4j: src/main/java/com/williamcallahan/tui4j/compat/bubbletea/Program.java
  */
 public class Program {
 
@@ -194,57 +194,65 @@ public class Program {
         renderer.hideCursor();
         renderer.start();
 
-        // execute init command
-        Command initCommand = currentModel.init();
-        commandExecutor
-                .executeIfPresent(initCommand, this::send, this::sendError)
-                .thenRun(initLatch::countDown);
+        Model finalModel = currentModel;
+        boolean renderFinalView = false;
 
-        // render the initial view
-        renderer.write(currentModel.view());
-
-        // run event loop
-        Model finalModel = eventLoop();
-
-        // stop reading keyboard input
-        inputHandler.stop();
-
-        // render final model view before closing
-        renderer.write(finalModel.view());
-        renderer.showCursor();
-        renderer.stop();
-
-        mouseSelectionAutoScroller.stop();
-
-        if (manageMouseSelectionCursor && mouseSelectionCursorActive) {
-            renderer.resetMouseCursor();
-        }
-        if (hoverTextCursorEnabled && hoverTextCursorActive) {
-            renderer.resetMouseCursor();
-        }
-
-        // disabling mouse support
-        disableMouse();
-
-        if (renderer.reportFocus()) {
-            renderer.disableReportFocus();
-        }
-
-        if (renderer.altScreen()) {
-            renderer.exitAltScreen();
-        }
-
-        terminal.puts(InfoCmp.Capability.carriage_return);
-        terminal.puts(InfoCmp.Capability.cursor_down);
-        terminal.flush();
-
-        // Finally clean up
-        isRunning.set(false);
-        commandExecutor.shutdown();
         try {
-            terminal.close();
-        } catch (IOException e) {
-            throw new ProgramException(e);
+            // execute init command
+            Command initCommand = currentModel.init();
+            commandExecutor
+                    .executeIfPresent(initCommand, this::send, this::sendError)
+                    .thenRun(initLatch::countDown);
+
+            // render the initial view
+            renderer.write(currentModel.view());
+
+            // run event loop
+            finalModel = eventLoop();
+            renderFinalView = true;
+        } finally {
+            // stop reading keyboard input
+            inputHandler.stop();
+
+            if (renderFinalView) {
+                // render final model view before closing
+                renderer.write(finalModel.view());
+            }
+            renderer.showCursor();
+            renderer.stop();
+
+            mouseSelectionAutoScroller.stop();
+
+            if (manageMouseSelectionCursor && mouseSelectionCursorActive) {
+                renderer.resetMouseCursor();
+            }
+            if (hoverTextCursorEnabled && hoverTextCursorActive) {
+                renderer.resetMouseCursor();
+            }
+
+            // disabling mouse support
+            disableMouse();
+
+            if (renderer.reportFocus()) {
+                renderer.disableReportFocus();
+            }
+
+            if (renderer.altScreen()) {
+                renderer.exitAltScreen();
+            }
+
+            terminal.puts(InfoCmp.Capability.carriage_return);
+            terminal.puts(InfoCmp.Capability.cursor_down);
+            terminal.flush();
+
+            // Finally clean up
+            isRunning.set(false);
+            commandExecutor.shutdown();
+            try {
+                terminal.close();
+            } catch (IOException e) {
+                throw new ProgramException(e);
+            }
         }
 
         if (lastError != null) {
@@ -457,6 +465,7 @@ public class Program {
 
     private void disableMouse() {
         renderer.disableMouseSGRMode();
+        renderer.disableMouseNormalTracking();
         renderer.disableMouseCellMotion();
         renderer.disableMouseAllMotion();
     }

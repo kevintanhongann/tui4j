@@ -1,7 +1,7 @@
-package com.williamcallahan.tui4j.render;
+package com.williamcallahan.tui4j.compat.bubbletea.render;
 
-import com.williamcallahan.tui4j.Message;
-import com.williamcallahan.tui4j.ProgramException;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.ProgramException;
 import com.williamcallahan.tui4j.ansi.Code;
 import com.williamcallahan.tui4j.ansi.Truncate;
 import com.williamcallahan.tui4j.message.CopyToClipboardMessage;
@@ -28,7 +28,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Default renderer backed by JLine.
- * tui4j: src/main/java/com/williamcallahan/tui4j/render/StandardRenderer.java
+ * tui4j: src/main/java/com/williamcallahan/tui4j/compat/bubbletea/render/StandardRenderer.java
  */
 public class StandardRenderer implements Renderer {
 
@@ -241,6 +241,16 @@ public class StandardRenderer implements Renderer {
     }
 
     @Override
+    public void enableMouseNormalTracking() {
+        writeToTerminal(Code.EnableMouseNormalTracking.value());
+    }
+
+    @Override
+    public void disableMouseNormalTracking() {
+        writeToTerminal(Code.DisableMouseNormalTracking.value());
+    }
+
+    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go enableMouseAllMotion behavior.
     public void enableMouseAllMotion() {
         writeToTerminal(Code.EnableMouseAllMotion.value());
@@ -422,6 +432,7 @@ public class StandardRenderer implements Renderer {
             enableMouseSGRMode();
         } else if (msg instanceof DisableMouseMessage) {
             disableMouseSGRMode();
+            disableMouseNormalTracking();
             disableMouseCellMotion();
             disableMouseAllMotion();
         } else if (msg instanceof SetMouseCursorTextMessage) {

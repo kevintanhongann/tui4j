@@ -1,7 +1,6 @@
-package com.williamcallahan.tui4j;
+package com.williamcallahan.tui4j.compat.bubbletea.render;
 
 import com.williamcallahan.tui4j.ansi.Code;
-import com.williamcallahan.tui4j.render.StandardRenderer;
 import org.jline.terminal.Terminal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests standard renderer.
- * tui4j: src/test/java/com/williamcallahan/tui4j/StandardRendererTest.java
+ * tui4j: src/test/java/com/williamcallahan/tui4j/compat/bubbletea/render/StandardRendererTest.java
  */
 class StandardRendererTest {
 
@@ -111,6 +110,30 @@ class StandardRendererTest {
         renderer.disableMouseCellMotion();
 
         assertThat(out.toString()).isEqualTo(Code.DisableMouseCellMotion.value());
+    }
+
+    @Test
+    @DisplayName("Should write EnableMouseNormalTracking sequence when enableMouseNormalTracking is called")
+    void test_ShouldWriteEnableMouseNormalTrackingSequence() {
+        StringWriter out = new StringWriter();
+        Terminal terminal = newFakeTerminal(out);
+        StandardRenderer renderer = new StandardRenderer(terminal);
+
+        renderer.enableMouseNormalTracking();
+
+        assertThat(out.toString()).isEqualTo(Code.EnableMouseNormalTracking.value());
+    }
+
+    @Test
+    @DisplayName("Should write DisableMouseNormalTracking sequence when disableMouseNormalTracking is called")
+    void test_ShouldWriteDisableMouseNormalTrackingSequence() {
+        StringWriter out = new StringWriter();
+        Terminal terminal = newFakeTerminal(out);
+        StandardRenderer renderer = new StandardRenderer(terminal);
+
+        renderer.disableMouseNormalTracking();
+
+        assertThat(out.toString()).isEqualTo(Code.DisableMouseNormalTracking.value());
     }
 
     @Test

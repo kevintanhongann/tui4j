@@ -1,4 +1,4 @@
-package com.williamcallahan.tui4j;
+package com.williamcallahan.tui4j.compat.bubbletea;
 
 import com.williamcallahan.tui4j.compat.bubbletea.message.BatchMessage;
 import com.williamcallahan.tui4j.message.CheckWindowSizeMessage;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 
 /**
  * Represents a command that yields a Message.
- * tui4j: src/main/java/com/williamcallahan/tui4j/Command.java
+ * tui4j: src/main/java/com/williamcallahan/tui4j/compat/bubbletea/Command.java
  */
 public interface Command {
 
