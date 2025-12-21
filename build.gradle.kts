@@ -270,14 +270,8 @@ signing {
 
 nmcp {
     publishAllPublicationsToCentralPortal {
-        username.set(
-            providers.environmentVariable("CENTRAL_PORTAL_USERNAME").orNull
-                ?: providers.environmentVariable("SONATYPE_USERNAME").orNull
-        )
-        password.set(
-            providers.environmentVariable("CENTRAL_PORTAL_PASSWORD").orNull
-                ?: providers.environmentVariable("SONATYPE_PASSWORD").orNull
-        )
+        username.set(providers.environmentVariable("SONATYPE_USERNAME").orNull)
+        password.set(providers.environmentVariable("SONATYPE_PASSWORD").orNull)
         publishingType.set("USER_MANAGED")
     }
 }
