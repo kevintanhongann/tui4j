@@ -73,4 +73,4 @@ When porting or comparing behavior, consult these Charm repositories:
 - Check STATUS.md for current porting progress before implementing new bubbles.
 - Match upstream Go behavior; when diverging, document why.
 - Test with `examples/generic/` and `examples/spring/`; add new examples for new components.
-- Keep public API stable; Brief (https://github.com/williamcallahan/brief) is a downstream consumer.
+- Keep public API stable; Brief (https://github.com/WilliamAGH/brief) is a downstream consumer.

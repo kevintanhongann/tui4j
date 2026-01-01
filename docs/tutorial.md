@@ -1,6 +1,6 @@
 # TUI4J Tutorial
 
-This tutorial walks through building a simple coffee ordering application using TUI4J's Elm Architecture pattern. The complete source code is available in the [examples directory](https://github.com/williamcallahan/tui4j/tree/main/examples/generic/src/main/java/com/williamcallahan/tui4j/examples/demo).
+This tutorial walks through building a simple coffee ordering application using TUI4J's Elm Architecture pattern. The complete source code is available in the [examples directory](https://github.com/WilliamAGH/tui4j/tree/main/examples/generic/src/main/java/com/williamcallahan/tui4j/examples/demo).
 
 ## The Elm Architecture
 
@@ -29,12 +29,19 @@ The model stores your application's state. It can be any class implementing `Mod
 
 ```java
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.Color;
 
 public class Demo implements Model {
+    private final static Style SELECTION = Style.newStyle().foreground(Color.color("205"));
     private final static String[] CHOICES = {"Espresso", "Americano", "Latte"};
 
     private int cursor;
     private String choice;
+
+    public String getChoice() {
+        return choice;
+    }
 }
 ```
 
@@ -63,16 +70,16 @@ public UpdateResult<? extends Model> update(Message msg) {
     if (msg instanceof KeyPressMessage keyPressMessage) {
         return switch (keyPressMessage.key()) {
             // "up" and "k" keys move cursor up
-            case 'k', 'K', 65 -> new UpdateResult<>(this.moveUp(), null);
+            case "k", "K", "up" -> new UpdateResult<>(this.moveUp(), null);
 
             // "down" and "j" keys move cursor down
-            case 'j', 'J', 66 -> new UpdateResult<>(this.moveDown(), null);
+            case "j", "J", "down" -> new UpdateResult<>(this.moveDown(), null);
             
             // "enter" and spacebar select the current item
-            case 13, ' ' -> new UpdateResult<>(this.makeChoice(), QuitMessage::new);
+            case "enter", " " -> new UpdateResult<>(this.makeChoice(), QuitMessage::new);
             
             // "q" exits the program
-            case 'q', 'Q' -> new UpdateResult<>(this, QuitMessage::new);
+            case "q", "Q" -> new UpdateResult<>(this, QuitMessage::new);
             default -> new UpdateResult<>(this, null);
         };
     }
@@ -154,6 +161,6 @@ public static void main(String[] args) {
 
 ## Next Steps
 
-- Explore the [examples](https://github.com/williamcallahan/tui4j/tree/main/examples) for more complex applications
-- Check [STATUS.md](https://github.com/williamcallahan/tui4j/blob/main/STATUS.md) for porting status from Bubble Tea
-- See [Brief](https://github.com/williamcallahan/brief) for a real-world TUI4J application
+- Explore the [examples](https://github.com/WilliamAGH/tui4j/tree/main/examples) for more complex applications
+- Check [STATUS.md](https://github.com/WilliamAGH/tui4j/blob/main/STATUS.md) for porting status from Bubble Tea
+- See [Brief](https://github.com/WilliamAGH/brief) for a real-world TUI4J application

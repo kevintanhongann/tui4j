@@ -43,9 +43,9 @@ public class Counter implements Model {
     public UpdateResult<? extends Model> update(Message msg) {
         if (msg instanceof KeyPressMessage key) {
             return switch (key.key()) {
-                case 'k' -> new UpdateResult<>(increment(), null);
-                case 'j' -> new UpdateResult<>(decrement(), null);
-                case 'q' -> new UpdateResult<>(this, QuitMessage::new);
+                case "k" -> new UpdateResult<>(increment(), null);
+                case "j" -> new UpdateResult<>(decrement(), null);
+                case "q" -> new UpdateResult<>(this, QuitMessage::new);
                 default -> new UpdateResult<>(this, null);
             };
         }
@@ -80,13 +80,13 @@ See all the [examples](examples) including lists, text inputs, spinners, and mor
 
 ### Brief
 
-[![Brief screenshot](assets/brief-screenshot.png)](https://github.com/williamcallahan/brief)
+[![Brief screenshot](assets/brief-screenshot.png)](https://github.com/WilliamAGH/brief)
 
-**[Brief](https://github.com/williamcallahan/brief)** - Terminal AI chat client with slash-command palette and local tool execution. Available via Homebrew.
+**[Brief](https://github.com/WilliamAGH/brief)** - Terminal AI chat client with slash-command palette and local tool execution. Available via Homebrew.
 
 ---
 
-**Using TUI4J in your project?** We'd love to feature it! [Open an issue](https://github.com/williamcallahan/tui4j/issues/new?title=Add%20project%20to%20Built%20with%20TUI4J&labels=showcase) or submit a PR.
+**Using TUI4J in your project?** We'd love to feature it! [Open an issue](https://github.com/WilliamAGH/tui4j/issues/new?title=Add%20project%20to%20Built%20with%20TUI4J&labels=showcase) or submit a PR.
 
 ## Compatibility with Bubble Tea
 

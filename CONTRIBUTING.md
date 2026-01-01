@@ -1,6 +1,6 @@
 # Contributing to TUI4J
 
-Found a bug or have a feature request? Please [open an issue](https://github.com/williamcallahan/tui4j/issues/new) on GitHub.
+Found a bug or have a feature request? Please [open an issue](https://github.com/WilliamAGH/tui4j/issues/new) on GitHub.
 
 Contributions and feedback are welcome, and Pull Requests (PRs) are encouraged!
 
