@@ -45,7 +45,7 @@ This is a **published Maven Central library** with downstream consumers (Brief, 
 ### Upstream References
 When porting or comparing behavior, consult these Charm repositories:
 - **Bubble Tea**: https://github.com/charmbracelet/bubbletea — core TUI framework, message loop, Program
-- **Bubbles**: https://github.com/charmbracelet/bubbletea — reusable components (spinner, list, textinput, viewport, etc.)
+- **Bubbles**: https://github.com/charmbracelet/bubbles — reusable components (spinner, list, textinput, viewport, etc.)
 - **Lip Gloss**: https://github.com/charmbracelet/lipgloss — styling, colors, borders, layout joining
 
 ### Package Mapping
