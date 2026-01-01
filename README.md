@@ -98,7 +98,7 @@ Check [STATUS.md](STATUS.md) for current porting status.
 
 ## Contributing
 
-Found a bug or have a feature request? Please [open an issue](https://github.com/williamcallahan/tui4j/issues/new) on GitHub. Contributions and feedback are welcome, and Pull Requests (PRs) are encouraged!
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on reporting issues and submitting PRs.
 
 ## Acknowledgments
 
