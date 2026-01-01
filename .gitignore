@@ -21,6 +21,7 @@ buildNumber.properties
 # Compiled files
 *.class
 *.jar
+!gradle/wrapper/gradle-wrapper.jar
 *.war
 *.ear
 *.zip
