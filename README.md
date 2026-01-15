@@ -104,6 +104,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on reporting issues and su
 
 This project began as a fork of the original Latte by [Lukasz Grabski](https://github.com/activey). The original work is an excellent Java port of Go's [Bubble Tea](https://github.com/charmbracelet/bubbletea) by [Charm](https://charm.sh/).
 
+## Other Projects
+
+- **[Apple Maps Java](https://github.com/WilliamAGH/apple-maps-java)** - Java SDK for Apple Maps Server API
+
 ## License
 
 [MIT License](LICENSE.md)
