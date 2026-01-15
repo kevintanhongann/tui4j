@@ -1,0 +1,167 @@
+package com.williamcallahan.tui4j.compat.bubbletea.bubbles.filepicker;
+
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
+import com.williamcallahan.tui4j.compat.bubbletea.input.key.Key;
+import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyType;
+import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class FilePickerTest {
+
+    private Path tempDir;
+    private FilePicker filePicker;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        tempDir = Files.createTempDirectory("filepicker-test");
+        filePicker = new FilePicker();
+
+        Files.createDirectories(tempDir.resolve("subdir"));
+        Files.createFile(tempDir.resolve("file1.txt"));
+        Files.createFile(tempDir.resolve("file2.java"));
+        Files.createFile(tempDir.resolve(".hidden"));
+
+        filePicker.setCurrentDirectory(tempDir.toString());
+    }
+
+    @Test
+    void testInitialState() {
+        FilePicker freshPicker = new FilePicker();
+        assertNotNull(freshPicker);
+        assertEquals(".", freshPicker.currentDirectory());
+        assertTrue(freshPicker.fileAllowed());
+        assertFalse(freshPicker.dirAllowed());
+        assertFalse(freshPicker.showHidden());
+    }
+
+    @Test
+    void testSetAllowedTypes() {
+        filePicker.setAllowedTypes(".txt", ".java");
+        assertEquals(2, filePicker.allowedTypes().size());
+        assertTrue(filePicker.allowedTypes().contains(".txt"));
+        assertTrue(filePicker.allowedTypes().contains(".java"));
+    }
+
+    @Test
+    void testSetShowHidden() {
+        assertFalse(filePicker.showHidden());
+        filePicker.setShowHidden(true);
+        assertTrue(filePicker.showHidden());
+    }
+
+    @Test
+    void testSetDirAllowed() {
+        assertFalse(filePicker.dirAllowed());
+        filePicker.setDirAllowed(true);
+        assertTrue(filePicker.dirAllowed());
+    }
+
+    @Test
+    void testSetFileAllowed() {
+        assertTrue(filePicker.fileAllowed());
+        filePicker.setFileAllowed(false);
+        assertFalse(filePicker.fileAllowed());
+    }
+
+    @Test
+    void testSetCurrentDirectory() {
+        filePicker.setCurrentDirectory("/tmp");
+        assertEquals("/tmp", filePicker.currentDirectory());
+    }
+
+    @Test
+    void testInitReturnsReadDirCommand() {
+        Command cmd = filePicker.init();
+        assertNotNull(cmd);
+        Message msg = cmd.execute();
+        assertNotNull(msg);
+    }
+
+    @Test
+    void testUpdateWithKeyPressUp() throws Exception {
+        Command cmd = filePicker.init();
+        Message msg = cmd.execute();
+        filePicker.update(msg);
+
+        KeyPressMessage keyMsg = new KeyPressMessage(new Key(KeyType.KeyUp));
+        UpdateResult<FilePicker> result = filePicker.update(keyMsg);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testUpdateWithKeyPressDown() throws Exception {
+        Command cmd = filePicker.init();
+        Message msg = cmd.execute();
+        filePicker.update(msg);
+
+        KeyPressMessage keyMsg = new KeyPressMessage(new Key(KeyType.KeyDown));
+        UpdateResult<FilePicker> result = filePicker.update(keyMsg);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testDidSelectFileReturnsFalseOnEnter() {
+        KeyPressMessage keyMsg = new KeyPressMessage(new Key(KeyType.keyCR));
+        assertFalse(filePicker.didSelectFile(keyMsg));
+    }
+
+    @Test
+    void testSetTerminalSize() {
+        filePicker.setTerminalSize(80, 24);
+        assertEquals(19, filePicker.height());
+    }
+
+    @Test
+    void testStyles() {
+        Styles styles = filePicker.styles();
+        assertNotNull(styles);
+        assertNotNull(styles.cursor());
+        assertNotNull(styles.directory());
+        assertNotNull(styles.file());
+    }
+
+    @Test
+    void testKeyMap() {
+        KeyMap keyMap = filePicker.keyMap();
+        assertNotNull(keyMap);
+        assertNotNull(keyMap.up());
+        assertNotNull(keyMap.down());
+        assertNotNull(keyMap.back());
+        assertNotNull(keyMap.open());
+        assertNotNull(keyMap.select());
+    }
+
+    @Test
+    void testCursorChar() {
+        assertEquals(">", filePicker.cursorChar());
+        filePicker.setCursorChar("*");
+        assertEquals("*", filePicker.cursorChar());
+    }
+
+    @Test
+    void testSelectedPathInitiallyNull() {
+        FilePicker freshPicker = new FilePicker();
+        assertNull(freshPicker.selectedPath());
+    }
+
+    @Test
+    void testPermissionsAndSizeVisibility() {
+        assertTrue(filePicker.showPermissions());
+        assertTrue(filePicker.showSize());
+
+        filePicker.setShowPermissions(false);
+        filePicker.setShowSize(false);
+
+        assertFalse(filePicker.showPermissions());
+        assertFalse(filePicker.showSize());
+    }
+}
