@@ -1,0 +1,12 @@
+package com.williamcallahan.tui4j.compat.bubbletea.bubbles.stopwatch;
+
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+
+/**
+ * StartStopMsg is sent when the stopwatch should start or stop.
+ */
+public record StartStopMsg(
+        int id,
+        boolean running
+) implements Message {
+}
