@@ -126,6 +126,10 @@ tasks.named<JavaCompile>("compileExamplesSpringJava") {
 dependencies {
     "examplesGenericImplementation"(sourceSets.main.get().output)
     "examplesGenericImplementation"(libs.com.squareup.okhttp3.okhttp)
+configurations["examplesGenericRuntimeClasspath"].extendsFrom(
+    configurations.api.get(),
+    configurations.runtimeClasspath.get()
+)
 
     "examplesSpringImplementation"(platform("org.springframework.boot:spring-boot-dependencies:3.5.9"))
     "examplesSpringImplementation"(sourceSets.main.get().output)
@@ -203,6 +207,79 @@ tasks.withType<JavaCompile>().configureEach {
 
 tasks.withType<Javadoc>().configureEach {
     options.encoding = "UTF-8"
+}
+
+tasks.register<Jar>("examplesJar") {
+    group = "build"
+    description = "Creates a fat JAR with all example classes and dependencies"
+    archiveFileName.set("tui4j-examples.jar")
+    destinationDirectory.set(layout.buildDirectory.dir("libs"))
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes["Main-Class"] = "com.williamcallahan.tui4j.examples.ExamplesRunner"
+    }
+
+    from(sourceSets["examplesGeneric"].output)
+    from(sourceSets["examplesSpring"].output)
+    from(sourceSets.main.get().output)
+
+    val genericRuntimeClasspath = configurations["examplesGenericRuntimeClasspath"]
+    val springRuntimeClasspath = configurations["examplesSpringRuntimeClasspath"]
+
+    genericRuntimeClasspath.filter { it.isFile && it.name.endsWith(".jar") }.forEach { file ->
+        from(zipTree(file)) {
+            exclude("META-INF/MANIFEST.MF")
+            exclude("META-INF/INDEX.LIST")
+            exclude("META-INF/io.netty.versions.properties")
+            exclude("META-INF/DEPENDENCIES")
+            exclude("META-INF/LICENSE")
+            exclude("META-INF/NOTICE")
+            exclude("META-INF/*.SF")
+            exclude("META-INF/*.DSA")
+            exclude("META-INF/*.RSA")
+        }
+    }
+
+    springRuntimeClasspath.filter { it.isFile && it.name.endsWith(".jar") }.forEach { file ->
+        from(zipTree(file)) {
+            exclude("META-INF/MANIFEST.MF")
+            exclude("META-INF/INDEX.LIST")
+            exclude("META-INF/io.netty.versions.properties")
+            exclude("META-INF/DEPENDENCIES")
+            exclude("META-INF/LICENSE")
+            exclude("META-INF/NOTICE")
+            exclude("META-INF/*.SF")
+            exclude("META-INF/*.DSA")
+            exclude("META-INF/*.RSA")
+        }
+    }
+}
+
+tasks.register("copyAllExampleJars") {
+    group = "build"
+    description = "Copies the examples JAR to all example directories"
+    dependsOn("examplesJar")
+
+    val jarPath = layout.buildDirectory.get().dir("libs").file("tui4j-examples.jar").asFile
+    val exampleDirs = listOf(
+        file("${projectDir}/examples/generic"),
+        file("${projectDir}/examples/generic/progress-static"),
+        file("${projectDir}/examples/generic/progress-animated"),
+        file("${projectDir}/examples/generic/progress-download"),
+        file("${projectDir}/examples/generic/package-manager"),
+        file("${projectDir}/examples/spring")
+    )
+
+    doLast {
+        exampleDirs.forEach { dir ->
+            project.copy {
+                from(jarPath)
+                into(dir)
+            }
+        }
+    }
 }
 
 publishing {

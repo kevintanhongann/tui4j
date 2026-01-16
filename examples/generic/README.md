@@ -116,5 +116,40 @@ A fully functional Tetris clone written with TUI4J :)
 Fireworks simulation :) Ported from https://github.com/Wayoung7/firework-rs/
 
  <a href="./src/main/java/com/williamcallahan/tui4j/examples/fireworks/Fireworks.java">
-  <img width="750" src="../../assets/fireworks-tape.gif" alt="Animation showing TUI4J fireworks simulation with colorful particle effects" />
+   <img width="750" src="../../assets/fireworks-tape.gif" alt="Animation showing TUI4J fireworks simulation with colorful particle effects" />
+ </a>
+
+### Progress
+
+The `progress` examples demonstrate the Progress bubble with various configurations:
+
+- **progress-static** - Static progress bars with different characters, widths, and formats
+- **progress-animated** - Animated progress with spring physics and keyboard controls
+- **progress-download** - File download manager simulation
+- **package-manager** - Package installation workflow simulation
+
+See [progress-readme.md](./progress-readme.md) for detailed usage instructions.
+
+#### Progress Static
+
+<a href="./src/main/java/com/williamcallahan/tui4j/examples/progress/staticbar/ProgressStaticExample.java">
+  <img width="750" src="../../assets/progress-static-tape.gif" alt="Animation showing various static progress bar configurations" />
+</a>
+
+#### Progress Animated
+
+<a href="./src/main/java/com/williamcallahan/tui4j/examples/progress/animated/ProgressAnimatedExample.java">
+  <img width="750" src="../../assets/progress-animated-tape.gif" alt="Animation showing animated progress bar with spring physics" />
+</a>
+
+#### Progress Download
+
+<a href="./src/main/java/com/williamcallahan/tui4j/examples/progress/download/ProgressDownloadExample.java">
+  <img width="750" src="../../assets/progress-download-tape.gif" alt="Animation showing file download manager with multiple progress bars" />
+</a>
+
+#### Package Manager
+
+<a href="./src/main/java/com/williamcallahan/tui4j/examples/progress/packagemanager/PackageManagerExample.java">
+  <img width="750" src="../../assets/package-manager-tape.gif" alt="Animation showing package installation simulation with progress tracking" />
 </a>

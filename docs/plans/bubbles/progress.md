@@ -56,10 +56,10 @@ Port the `progress` bubble from [bubbles/progress](https://github.com/charmbrace
 - [ ] Visual tests for animation
 
 ## Examples
-- [ ] `examples/generic/progress-static/`
-- [ ] `examples/generic/progress-animated/`
-- [ ] `examples/generic/progress-download/`
-- [ ] `examples/generic/package-manager/`
+- [x] `examples/generic/progress-static/` - Static progress bars with various configurations
+- [x] `examples/generic/progress-animated/` - Animated progress with spring physics
+- [x] `examples/generic/progress-download/` - File download simulation
+- [x] `examples/generic/package-manager/` - Package manager installation simulation
 
 ## Estimated Effort
 Completed - 1 day
