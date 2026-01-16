@@ -58,8 +58,8 @@ conform it
 | split-editors     | `⚪ TODO`     |                                                                    |
 | stopwatch         | `⚪ TODO`     | Needs **help**, **key** and **stopwatch** bubbles.                 |
 | suspend           | `⚪ TODO`     |                                                                    |
-| table             | `⚪ TODO`     | Needs **table** bubble.                                            |
-| table-resize      | `⚪ TODO`     |                                                                    |
+| table             | `🟢 Done`     |                                                                    |
+| table-resize      | `🟢 Done`     |                                                                    |
 | tabs              | `⚪ TODO`     |                                                                    |
 | textarea          | `⚪ TODO`     | Needs **textarea** bubble.                                         |
 | textinput         | `🟢 Done`     |                                                                    |
@@ -85,7 +85,7 @@ This table covers all the Bubble's ported so far. The same status labels apply.
 | runeutil   | `🟢 Done` |                                |
 | spinner    | `🟢 Done` |                                |
 | stopwatch  | `⚪ TODO` |                                |
-| table      | `⚪ TODO` | Needs **table** from lipgloss. |
+| table      | `🟢 Done` |                                                        |
 | textarea   | `⚪ TODO` |                                |
 | textinput  | `🟢 Done` |                                |
 | timer      | `⚪ TODO` |                                |
@@ -106,4 +106,4 @@ This table represents porting status of each part of Lipgloss that can be anyway
 | Horizontal and vertical join | `🟢 Done` |                                                           |
 | List component               | `🟢 Done` |                                                           |
 | Tree component               | `🟢 Done` |                                                           |
-| Table component              | `⚪ TODO` |                                                           |
+| Table component              | `🟢 Done` |                                                           |

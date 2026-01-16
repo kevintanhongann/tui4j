@@ -12,62 +12,63 @@ Port the `table` bubble from [bubbles/table](https://github.com/charmbracelet/bu
 `com.williamcallahan.tui4j.compat.bubbletea.bubbles.table`
 
 ## Prerequisites
-- [ ] Lipgloss table component must be implemented first (see `lipgloss/table.md`)
+- [x] Lipgloss table component must be implemented first (see `lipgloss/table.md`)
 
 ## Core Components to Implement
 
 ### 1. Table Model
-- [ ] `Table` class implementing `Model`
-- [ ] Row data management
-- [ ] Column definitions with headers
-- [ ] Selection/cursor support
-- [ ] Scrolling for large datasets
+- [x] `Table` class implementing `Model`
+- [x] Row data management
+- [x] Column definitions with headers
+- [x] Selection/cursor support
+- [x] Scrolling for large datasets
 
 ### 2. Column Definition
-- [ ] `Column` record/class
-- [ ] Title
-- [ ] Width (fixed or flexible)
+- [x] `Column` record/class
+- [x] Title
+- [x] Width (fixed or flexible)
 
 ### 3. Row
-- [ ] `Row` record/class
-- [ ] Cell values as `List<String>`
+- [x] `Row` record/class
+- [x] Cell values as `List<String>`
 
 ### 4. Configuration Options
-- [ ] `columns` - List of column definitions
-- [ ] `rows` - List of row data
-- [ ] `height` - Visible rows (for scrolling)
-- [ ] `width` - Total table width
-- [ ] `focused` - Whether table has focus
+- [x] `columns` - List of column definitions
+- [x] `rows` - List of row data
+- [x] `height` - Visible rows (for scrolling)
+- [x] `width` - Total table width
+- [x] `focused` - Whether table has focus
 
 ### 5. Styling
-- [ ] Header style
-- [ ] Cell style
-- [ ] Selected row style
-- [ ] Border style (uses Lipgloss borders)
+- [x] Header style
+- [x] Cell style
+- [x] Selected row style
+- [x] Border style (uses Lipgloss borders)
 
 ### 6. Key Bindings
-- [ ] Up/Down - Navigate rows
-- [ ] Page Up/Down - Scroll pages
-- [ ] Home/End - Jump to first/last row
-- [ ] Enter - Select row
+- [x] Up/Down - Navigate rows
+- [x] Page Up/Down - Scroll pages
+- [x] Home/End - Jump to first/last row
+- [x] Enter - Select row
 
 ### 7. Messages
-- [ ] Navigation messages
-- [ ] Selection messages
+- [x] Navigation messages
+- [x] Selection messages
 
 ## Dependencies
-- Lipgloss table component (TODO)
-- `key` bubble (done)
-- `paginator` bubble (done)
+- [x] Lipgloss table component
+- [x] `key` bubble (done)
+- [x] `paginator` bubble (done)
 
 ## Testing
-- [ ] Unit tests for column layout
-- [ ] Unit tests for row rendering
-- [ ] Unit tests for scrolling behavior
-- [ ] Unit tests for selection
+- [x] Unit tests for column layout
+- [x] Unit tests for row rendering
+- [x] Unit tests for scrolling behavior
+- [x] Unit tests for selection
 
 ## Example
-Create `examples/generic/table/` and `examples/generic/table-resize/` matching upstream.
+- [x] Create `examples/generic/table/` matching upstream.
+- [x] Create `examples/generic/table-resize/` matching upstream.
 
 ## Estimated Effort
-High - 3-5 days (depends on Lipgloss table)
+~~High - 3-5 days (depends on Lipgloss table)~~ **Completed**
