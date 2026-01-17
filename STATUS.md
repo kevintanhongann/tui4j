@@ -40,7 +40,7 @@ conform it
 | list-simple       | `🟢 Done`     |                                                                    |
 | mouse             | `🟢 Done`     |                                                                    |
 | package-manager   | `⚪ TODO`     | Needs **progress** bubble.                                         |
-| pager             | `⚪ TODO`     | Needs **viewport** bubble.                                         |
+| pager             | `🟢 Done`     | Uses **viewport** bubble.                                        |
 | paginator         | `🟢 Done`     |                                                                    |
 | pipe              | `⚪ TODO`     |                                                                    |
 | prevent-quit      | `⚪ TODO`     | Needs **help**, **key** and **textarea** bubbles.                  |
@@ -89,7 +89,7 @@ This table covers all the Bubble's ported so far. The same status labels apply.
 | textarea   | `⚪ TODO` |                                |
 | textinput  | `🟢 Done` |                                |
 | timer      | `⚪ TODO` |                                |
-| viewport   | `⚪ TODO` |                                |
+| viewport   | `🟢 Done` |                                |
 
 ## Lipgloss
 
