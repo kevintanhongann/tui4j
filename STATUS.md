@@ -42,7 +42,7 @@ conform it
 | package-manager   | `⚪ TODO`     | Needs **progress** bubble.                                         |
 | pager             | `🟢 Done`     | Uses **viewport** bubble.                                        |
 | paginator         | `🟢 Done`     |                                                                    |
-| pipe              | `⚪ TODO`     |                                                                    |
+| pipe              | `🟢 Done`     |                                                                    |
 | prevent-quit      | `⚪ TODO`     | Needs **help**, **key** and **textarea** bubbles.                  |
 | progress-animated | `⚪ TODO`     | Needs **progress** bubble.                                         |
 | progress-download | `⚪ TODO`     | Needs **progress** bubble.                                         |
