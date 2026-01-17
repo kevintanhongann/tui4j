@@ -16,6 +16,14 @@ The `cursor` example shows how to spawn an artificial cursor in TUI4J applicatio
 <img width="750" src="../../assets/cursor-tape.gif" alt="Animation showing TUI4J cursor blinking and moving in a terminal" />
 </a>
 
+### Composable Views
+
+The `composable-views` example demonstrates composing multiple independent models (timer and spinner) into a parent model with focus switching between child models.
+
+<a href="./src/main/java/com/williamcallahan/tui4j/examples/composableviews/ComposableViewsExample.java">
+  Code
+</a>
+
 ### Full Screen
 
 The `fullscreen` example shows how to make a TUI4J application fullscreen.

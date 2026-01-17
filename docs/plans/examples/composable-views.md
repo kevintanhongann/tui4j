@@ -11,13 +11,14 @@ Port the `composable-views` example from [bubbletea/examples/composable-views](h
 `examples/generic/composable-views/`
 
 ## Prerequisites
-- [ ] `timer` bubble (in progress)
+- [x] `timer` bubble (completed)
+- [x] `spinner` bubble (completed)
 
 ## Features to Implement
-- [ ] Multiple independent sub-models
-- [ ] Composed parent model
-- [ ] Message routing to sub-models
-- [ ] Combined view rendering
+- [x] Multiple independent sub-models
+- [x] Composed parent model
+- [x] Message routing to sub-models
+- [x] Combined view rendering
 
 ## Key Concepts Demonstrated
 1. Model composition pattern
@@ -25,5 +26,14 @@ Port the `composable-views` example from [bubbletea/examples/composable-views](h
 3. Update delegation
 4. View composition with Lipgloss joins
 
+## Implementation Details
+- **File**: `examples/generic/src/main/java/com/williamcallahan/tui4j/examples/composableviews/ComposableViewsExample.java`
+- Uses existing Timer and Spinner bubbles
+- Demonstrates focus switching between child models
+- Shows horizontal view joining with `HorizontalJoinDecorator`
+
 ## Estimated Effort
 Low - 1 day (after timer bubble)
+
+## Status
+Completed - Implementation ported from Go Bubble Tea example
