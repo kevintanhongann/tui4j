@@ -12,56 +12,55 @@ Port the `timer` bubble from [bubbles/timer](https://github.com/charmbracelet/bu
 `com.williamcallahan.tui4j.compat.bubbletea.bubbles.timer`
 
 ## Current Status
-Directory exists at `src/main/java/.../bubbles/timer/` - verify current implementation state.
+**COMPLETED** - All components implemented and tests passing.
 
 ## Core Components to Implement
 
 ### 1. Timer Model
-- [ ] `Timer` class implementing `Model`
-- [ ] Countdown from specified duration
-- [ ] Remaining time tracking with `java.time.Duration`
-- [ ] Running/paused state management
-- [ ] Timeout detection
+- [x] `Timer` class implementing `Model`
+- [x] Countdown from specified duration
+- [x] Remaining time tracking with `java.time.Duration`
+- [x] Running/paused state management
+- [x] Timeout detection
 
 ### 2. Configuration Options
-- [ ] `timeout` - Initial countdown duration
-- [ ] `interval` - Tick interval (default: 1 second)
+- [x] `timeout` - Initial countdown duration
+- [x] `interval` - Tick interval (default: 1 second)
 
 ### 3. Messages
-- [ ] `StartStopMsg` - Toggle running state
-- [ ] `ResetMsg` - Reset to initial timeout
-- [ ] `TickMsg` - Internal tick for countdown
-- [ ] `TimeoutMsg` - Fired when timer reaches zero
+- [x] `StartStopMsg` - Toggle running state
+- [x] `TickMsg` - Internal tick for countdown
+- [x] `TimeoutMsg` - Fired when timer reaches zero
 
 ### 4. Commands
-- [ ] `start()` - Start countdown
-- [ ] `stop()` - Pause countdown
-- [ ] `toggle()` - Toggle running state
-- [ ] `reset()` - Reset to initial duration
-- [ ] `init()` - Initialize and start tick loop
+- [x] `start()` - Start countdown
+- [x] `stop()` - Pause countdown
+- [x] `toggle()` - Toggle running state
+- [x] `reset()` - Reset to initial duration (via `setTimeout()`)
+- [x] `init()` - Initialize and start tick loop
 
 ### 5. State
-- [ ] `running` - Is timer counting down
-- [ ] `timedOut` - Has timer reached zero
-- [ ] `remaining` - Time remaining
+- [x] `running` - Is timer counting down
+- [x] `timedOut` - Has timer reached zero
+- [x] `remaining` - Time remaining
 
 ### 6. View
-- [ ] Formatted time display (MM:SS)
-- [ ] Customizable format
-- [ ] Styling support
+- [x] Formatted time display (Duration format: 1m5s, 1h2m3s, etc.)
+- [x] Customizable format
+- [x] Styling support
 
 ## Dependencies
-- Core tick mechanism from bubbletea
+- Core tick mechanism from bubbletea (done)
 - Lipgloss styling (done)
 
 ## Testing
-- [ ] Unit tests for countdown logic
-- [ ] Unit tests for timeout detection
-- [ ] Unit tests for start/stop/reset state transitions
-- [ ] Unit tests for time formatting
+- [x] Unit tests for countdown logic
+- [x] Unit tests for timeout detection
+- [x] Unit tests for start/stop/reset state transitions
+- [x] Unit tests for time formatting
 
 ## Example
-Create `examples/generic/timer/` matching the upstream example.
+- [x] Create `examples/generic/timer/` matching the upstream example.
 
-## Estimated Effort
-Low - 1-2 days (similar to stopwatch)
+## Actual Effort
+- Completed in existing codebase
