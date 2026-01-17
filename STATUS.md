@@ -43,7 +43,7 @@ conform it
 | pager             | `🟢 Done`     | Uses **viewport** bubble.                                        |
 | paginator         | `🟢 Done`     |                                                                    |
 | pipe              | `🟢 Done`     |                                                                    |
-| prevent-quit      | `⚪ TODO`     | Needs **help**, **key** and **textarea** bubbles.                  |
+| prevent-quit      | `🟢 Done`     | Uses **help**, **key** and **textarea** bubbles.                    |
 | progress-animated | `⚪ TODO`     | Needs **progress** bubble.                                         |
 | progress-download | `⚪ TODO`     | Needs **progress** bubble.                                         |
 | progress-static   | `⚪ TODO`     | Needs **progress** bubble.                                         |

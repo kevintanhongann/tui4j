@@ -13,14 +13,14 @@ Port the `prevent-quit` example from [bubbletea/examples/prevent-quit](https://g
 ## Prerequisites
 - [x] `help` bubble (done)
 - [x] `key` bubble (done)
-- [ ] `textarea` bubble (TODO)
+- [x] `textarea` bubble (done - used in chat example)
 
-## Features to Implement
-- [ ] Dirty state tracking (unsaved changes)
-- [ ] Confirmation dialog on quit attempt
-- [ ] Cancel quit functionality
-- [ ] Force quit option
-- [ ] Visual dirty indicator
+## Features Implemented
+- [x] Dirty state tracking (unsaved changes)
+- [x] Confirmation dialog on quit attempt
+- [x] Cancel quit functionality
+- [x] Force quit option
+- [x] Visual dirty indicator
 
 ## Key Components
 1. Textarea for content editing
@@ -28,5 +28,13 @@ Port the `prevent-quit` example from [bubbletea/examples/prevent-quit](https://g
 3. Confirmation overlay/dialog
 4. Key binding for quit with confirmation
 
+## Files Created
+- `examples/generic/src/main/java/com/williamcallahan/tui4j/examples/preventquit/PreventQuitExample.java`
+- `examples/generic/prevent-quit/run` (run script)
+- `examples/generic/prevent-quit/tui4j-examples.jar` (fat JAR with all examples)
+
 ## Estimated Effort
-Low-Medium - 1 day (after textarea)
+Low-Medium - 1 day (after textarea) - **Completed**
+
+## Status
+🟢 Done

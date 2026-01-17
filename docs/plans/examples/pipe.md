@@ -14,17 +14,17 @@ Port the `pipe` example from [bubbletea/examples/pipe](https://github.com/charmb
 - Core Program stdin/stdout handling
 
 ## Features to Implement
-- [ ] Read from stdin pipe
-- [ ] Process piped input
-- [ ] Handle non-TTY input
-- [ ] Detect pipe vs interactive mode
-- [ ] Output to stdout
+- [x] Read from stdin pipe
+- [x] Process piped input
+- [x] Handle non-TTY input
+- [x] Detect pipe vs interactive mode
+- [x] Output to stdout
 
 ## Key Concepts
-1. Stdin detection (TTY vs pipe)
-2. Input buffering
-3. Non-interactive mode handling
-4. Output formatting
+1. [x] Stdin detection (TTY vs pipe)
+2. [x] Input buffering
+3. [x] Non-interactive mode handling
+4. [x] Output formatting
 
 ## Java Implementation Notes
 ```java
@@ -40,4 +40,13 @@ if (!isTTY) {
 ```
 
 ## Estimated Effort
-Low-Medium - 1 day
+Low-Medium - 1 day ✅ Completed
+
+## Implementation
+- **Location**: `examples/generic/src/main/java/com/williamcallahan/tui4j/examples/pipe/PipeExample.java`
+- **Main class**: `com.williamcallahan.tui4j.examples.pipe.PipeExample`
+
+## Usage
+```bash
+echo 'Hello, World!' | java -cp tui4j-examples.jar com.williamcallahan.tui4j.examples.pipe.PipeExample
+```
