@@ -11,21 +11,21 @@ Port the `chat` example from [bubbletea/examples/chat](https://github.com/charmb
 `examples/generic/chat/`
 
 ## Prerequisites
-- [ ] `textarea` bubble (TODO)
-- [ ] `viewport` bubble (TODO)
+- [x] `textarea` bubble (TODO)
+- [x] `viewport` bubble (TODO)
 
 ## Features to Implement
-- [ ] Split view: message history + input area
-- [ ] Scrollable message viewport
-- [ ] Multi-line text input
-- [ ] Message sending and display
-- [ ] Styled message bubbles
+- [x] Split view: message history + input area
+- [x] Scrollable message viewport
+- [x] Multi-line text input
+- [x] Message sending and display
+- [x] Styled message bubbles
 
 ## Key Components
-1. Viewport for message history (scrollable)
-2. Textarea for message composition
-3. Message model with sender/content
-4. Layout combining both components
+1. [x] Viewport for message history (scrollable)
+2. [x] Textarea for message composition
+3. [x] Message model with sender/content
+4. [x] Layout combining both components
 
 ## Estimated Effort
 Medium - 2 days (after prerequisites)
