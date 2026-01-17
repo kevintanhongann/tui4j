@@ -24,6 +24,14 @@ The `composable-views` example demonstrates composing multiple independent model
   Code
 </a>
 
+### Debounce
+
+The `debounce` example shows how to debounce commands in TUI4J, delaying action execution until input pauses.
+
+<a href="./debounce/src/main/java/com/williamcallahan/tui4j/examples/debounce/DebounceExample.java">
+  Code
+</a>
+
 ### Full Screen
 
 The `fullscreen` example shows how to make a TUI4J application fullscreen.
