@@ -44,7 +44,7 @@ conform it
 | paginator         | `🟢 Done`     |                                                                    |
 | pipe              | `🟢 Done`     |                                                                    |
 | prevent-quit      | `🟢 Done`     | Uses **help**, **key** and **textarea** bubbles.                    |
-| progress-animated | `⚪ TODO`     | Needs **progress** bubble.                                         |
+| progress-animated | `🟢 Done`     | Uses **progress** bubble.                                         |
 | progress-download | `⚪ TODO`     | Needs **progress** bubble.                                         |
 | progress-static   | `⚪ TODO`     | Needs **progress** bubble.                                         |
 | realtime          | `⚪ TODO`     |                                                                    |
