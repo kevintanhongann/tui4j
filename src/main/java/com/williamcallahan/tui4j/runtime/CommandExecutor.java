@@ -34,4 +34,8 @@ public class CommandExecutor {
         }
         return CompletableFuture.completedFuture(null);
     }
+
+    public void execute(Runnable task) {
+        executorService.submit(task);
+    }
 }

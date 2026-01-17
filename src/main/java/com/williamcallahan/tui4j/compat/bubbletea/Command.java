@@ -7,6 +7,7 @@ import com.williamcallahan.tui4j.message.CopyToClipboardMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.DisableMouseMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.EnableMouseAllMotionMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.EnableMouseCellMotionMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.message.ExecProcessMessage;
 import com.williamcallahan.tui4j.message.OpenUrlMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.PrintLineMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
@@ -16,6 +17,7 @@ import com.williamcallahan.tui4j.message.SetMouseCursorPointerMessage;
 import com.williamcallahan.tui4j.message.SetMouseCursorTextMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.SetWindowTitleMessage;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -25,6 +27,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -146,5 +151,13 @@ public interface Command {
 
     static Command openUrl(String url) {
         return () -> new OpenUrlMessage(url);
+    }
+
+    static Command execProcess(Process process, BiConsumer<Integer, byte[]> outputHandler, BiConsumer<Integer, byte[]> errorHandler) {
+        return () -> new ExecProcessMessage(process, outputHandler, errorHandler);
+    }
+
+    static Command execProcess(Process process) {
+        return () -> new ExecProcessMessage(process, null, null);
     }
 }

@@ -20,6 +20,8 @@ import com.williamcallahan.tui4j.compat.bubbletea.message.ClearScreenMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.EnterAltScreen;
 import com.williamcallahan.tui4j.message.ErrorMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.ExitAltScreen;
+import com.williamcallahan.tui4j.compat.bubbletea.message.ExecCompletedMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.message.ExecProcessMessage;
 import com.williamcallahan.tui4j.message.OpenUrlMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.SequenceMessage;
@@ -45,6 +47,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiConsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -316,6 +319,9 @@ public class Program {
                 } else if (msg instanceof OpenUrlMessage openUrlMessage) {
                     openUrl(openUrlMessage.url());
                     continue;
+                } else if (msg instanceof ExecProcessMessage execProcessMessage) {
+                    executeProcess(execProcessMessage);
+                    continue;
                 }
 
                 if (msg instanceof MouseMessage mouseMessage) {
@@ -498,5 +504,42 @@ public class Program {
         } catch (Exception e) {
             logger.log(Level.FINE, "Failed to open URL: " + uri, e);
         }
+    }
+
+    private void executeProcess(ExecProcessMessage execProcessMessage) {
+        commandExecutor.execute(() -> {
+            Process process = execProcessMessage.process();
+            BiConsumer<Integer, byte[]> outputHandler = execProcessMessage.outputHandler();
+            BiConsumer<Integer, byte[]> errorHandler = execProcessMessage.errorHandler();
+            try {
+                terminal.pause();
+                renderer.showCursor();
+                terminal.flush();
+
+                int exitCode = process.waitFor();
+                if (outputHandler != null) {
+                    byte[] output = ExecProcessMessage.readStream(process.getInputStream());
+                    outputHandler.accept(exitCode, output);
+                }
+                if (errorHandler != null) {
+                    byte[] error = ExecProcessMessage.readStream(process.getErrorStream());
+                    errorHandler.accept(exitCode, error);
+                }
+
+                terminal.resume();
+                renderer.hideCursor();
+
+                send(new ExecCompletedMessage(exitCode, null));
+            } catch (Exception e) {
+                logger.log(Level.WARNING, "Error executing process", e);
+                try {
+                    terminal.resume();
+                    renderer.hideCursor();
+                } catch (Exception ex) {
+                    logger.log(Level.WARNING, "Failed to resume terminal", ex);
+                }
+                send(new ExecCompletedMessage(-1, e));
+            }
+        });
     }
 }
