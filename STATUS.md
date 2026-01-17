@@ -24,7 +24,7 @@ conform it
 | altscreen-toggle  | `🟢 Done`     |                                                                    |
 | autocomplete      | `⚪ TODO`     | Needs **help**, **key** and **textinput** bubbles.                 |
 | cellbuffer        | `⚪ TODO`     | Any reasonable port of **harmonica** is needed.                    |
-| chat              | `⚪ TODO`     | Needs **textarea** and **viewport** bubbles.                       |
+| chat              | `🟢 Done`     | Uses **textarea** and **viewport** bubbles.                       |
 | composable-views  | `⚪ TODO`     | Needs **timer** bubble.                                            |
 | credit-card-form  | `⚪ TODO`     |                                                                    |
 | debounce          | `⚪ TODO`     |                                                                    |
