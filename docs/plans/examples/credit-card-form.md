@@ -11,15 +11,19 @@ Port the `credit-card-form` example from [bubbletea/examples/credit-card-form](h
 `examples/generic/credit-card-form/`
 
 ## Prerequisites
-- [ ] `textinput` bubble (done)
+- [x] `textinput` bubble (done)
 
 ## Features to Implement
-- [ ] Multiple text inputs (card number, expiry, CVV, name)
-- [ ] Input validation and formatting
-- [ ] Tab navigation between fields
-- [ ] Focus management
-- [ ] Styled form layout
+- [x] Multiple text inputs (card number, expiry, CVV)
+- [x] Input validation and formatting
+- [x] Tab navigation between fields
+- [x] Focus management
+- [x] Styled form layout
 - [ ] Card number masking/formatting
+
+## Status
+- **Completed**: January 17, 2026
+- **Implementation**: `examples/generic/src/main/java/com/williamcallahan/tui4j/examples/creditcardform/CreditCardFormExample.java`
 
 ## Key Components
 1. Multiple textinput instances
