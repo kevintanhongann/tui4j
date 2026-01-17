@@ -11,22 +11,25 @@ Port the `autocomplete` example from [bubbletea/examples/autocomplete](https://g
 `examples/generic/autocomplete/`
 
 ## Prerequisites
-- [ ] `help` bubble (done)
-- [ ] `key` bubble (done)
-- [ ] `textinput` bubble (done)
+- [x] `help` bubble (done)
+- [x] `key` bubble (done)
+- [x] `textinput` bubble (done)
 
 ## Features to Implement
-- [ ] Text input with autocomplete suggestions
-- [ ] Suggestion filtering based on input
-- [ ] Keyboard navigation through suggestions
-- [ ] Selection and completion
-- [ ] Help text display
+- [x] Text input with autocomplete suggestions
+- [x] Suggestion filtering based on input
+- [x] Keyboard navigation through suggestions
+- [x] Selection and completion
+- [x] Help text display
 
 ## Key Components
 1. Model with textinput and suggestion list
-2. Suggestion matching algorithm
-3. Dropdown-style suggestion display
-4. Tab/Enter completion
+2. Suggestion matching algorithm (built into TextInput)
+3. Dropdown-style suggestion display (built into TextInput)
+4. Tab/Enter completion (built into TextInput)
 
 ## Estimated Effort
 Low - 1 day (dependencies ready)
+
+## Status
+Completed - Autocomplete example implemented at `examples/generic/autocomplete/`
