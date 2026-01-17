@@ -32,6 +32,14 @@ The `debounce` example shows how to debounce commands in TUI4J, delaying action 
   Code
 </a>
 
+### File Picker
+
+The `file-picker` example demonstrates how to use the FilePicker bubble to browse directories and select files with keyboard navigation.
+
+<a href="./file-picker/src/main/java/com/williamcallahan/tui4j/examples/filepicker/FilePickerExample.java">
+  Code
+</a>
+
 ### Full Screen
 
 The `fullscreen` example shows how to make a TUI4J application fullscreen.

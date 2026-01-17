@@ -11,20 +11,28 @@ Port the `file-picker` example from [bubbletea/examples/file-picker](https://git
 `examples/generic/file-picker/`
 
 ## Prerequisites
-- [ ] `filepicker` bubble (TODO)
+- [x] `filepicker` bubble (exists)
 
 ## Features to Implement
-- [ ] Directory browsing
-- [ ] File selection
-- [ ] Navigation (enter directories, go back)
-- [ ] File type filtering
-- [ ] Selected file display
+- [x] Directory browsing
+- [x] File selection
+- [x] Navigation (enter directories, go back)
+- [x] File type filtering
+- [x] Selected file display
 
 ## Key Components
-1. Filepicker bubble integration
-2. Selected file state management
-3. Styled file list display
-4. Keyboard shortcuts help
+1. [x] Filepicker bubble integration
+2. [x] Selected file state management
+3. [x] Styled file list display
+4. [x] Keyboard shortcuts help
 
 ## Estimated Effort
 Low - 0.5 days (after filepicker bubble)
+
+## Files Created
+- `examples/generic/file-picker/src/main/java/com/williamcallahan/tui4j/examples/filepicker/FilePickerExample.java`
+- `examples/generic/file-picker/README.md`
+- `examples/generic/file-picker/run`
+
+## Build Configuration
+- Updated `build.gradle.kts` to include file-picker in copyAllExampleJars task
