@@ -11,20 +11,35 @@ Port the `package-manager` example from [bubbletea/examples/package-manager](htt
 `examples/generic/package-manager/`
 
 ## Prerequisites
-- [ ] `progress` bubble (TODO)
+- [x] `progress` bubble (completed)
 
 ## Features to Implement
-- [ ] Multiple concurrent progress bars
-- [ ] Simulated package downloads
-- [ ] Individual package states (waiting, downloading, complete)
-- [ ] Overall progress tracking
-- [ ] Styled package list
+- [x] Multiple concurrent progress bars
+- [x] Simulated package downloads
+- [x] Individual package states (waiting, downloading, complete)
+- [x] Overall progress tracking
+- [x] Styled package list
 
 ## Key Components
-1. Multiple progress bubble instances
-2. Async download simulation
-3. State machine per package
-4. Combined view layout
+1. [x] Multiple progress bubble instances
+2. [x] Async download simulation
+3. [x] State machine per package
+4. [x] Combined view layout
 
 ## Estimated Effort
 Medium - 1-2 days (after progress bubble)
+
+## Status
+✅ **COMPLETED** - Implementation exists at `examples/generic/src/main/java/com/williamcallahan/tui4j/examples/progress/packagemanager/PackageManagerExample.java`
+
+### To Run
+```bash
+./examples/generic/package-manager/run
+```
+
+### Features
+- Overall progress bar with weighted completion
+- Per-task expandable progress bars
+- Spinner animation during active operations
+- Keyboard controls (j/k or up/down to navigate, space to expand/collapse)
+- Checkmarks for completed operations
