@@ -47,7 +47,7 @@ conform it
 | progress-animated | `🟢 Done`     | Uses **progress** bubble.                                         |
 | progress-download | `⚪ TODO`     | Needs **progress** bubble.                                         |
 | progress-static   | `⚪ TODO`     | Needs **progress** bubble.                                         |
-| realtime          | `⚪ TODO`     |                                                                    |
+| realtime          | `🟢 Done`     | Uses background thread and Program.send() for message injection. |
 | result            | `🔴 Won't do` | Rewritten as **demo** example.                                     |
 | send-msg          | `⚪ TODO`     |                                                                    |
 | sequence          | `🟢 Done`     | Nested sequences and batches not yet supported, needs revisiting.  |
@@ -57,7 +57,7 @@ conform it
 | spinners          | `⚪ TODO`     |                                                                    |
 | split-editors     | `⚪ TODO`     |                                                                    |
 | stopwatch         | `⚪ TODO`     | Needs **help**, **key** and **stopwatch** bubbles.                 |
-| suspend           | `⚪ TODO`     |                                                                    |
+| suspend           | `🟢 Done`     | Uses JLine pause/resume for terminal state management.         |
 | table             | `🟢 Done`     |                                                                    |
 | table-resize      | `🟢 Done`     |                                                                    |
 | tabs              | `⚪ TODO`     |                                                                    |

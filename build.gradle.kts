@@ -265,6 +265,7 @@ tasks.register("copyAllExampleJars") {
     val jarPath = layout.buildDirectory.get().dir("libs").file("tui4j-examples.jar").asFile
     val exampleDirs = listOf(
         file("${projectDir}/examples/generic"),
+        file("${projectDir}/examples/generic/table-resize"),
         file("${projectDir}/examples/generic/autocomplete"),
         file("${projectDir}/examples/generic/debounce"),
         file("${projectDir}/examples/generic/file-picker"),
@@ -273,6 +274,9 @@ tasks.register("copyAllExampleJars") {
         file("${projectDir}/examples/generic/progress-animated"),
         file("${projectDir}/examples/generic/progress-download"),
         file("${projectDir}/examples/generic/package-manager"),
+        file("${projectDir}/examples/generic/spinners"),
+        file("${projectDir}/examples/generic/tabs"),
+        file("${projectDir}/examples/generic/tui-daemon-combo"),
         file("${projectDir}/examples/spring")
     )
 

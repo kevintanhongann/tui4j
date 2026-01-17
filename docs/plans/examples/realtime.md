@@ -14,10 +14,10 @@ Port the `realtime` example from [bubbletea/examples/realtime](https://github.co
 - Core message/command system (done)
 
 ## Features to Implement
-- [ ] External event source (simulated)
-- [ ] Real-time updates from background thread
-- [ ] Message injection into Program
-- [ ] Live data display
+- [x] External event source (simulated)
+- [x] Real-time updates from background thread
+- [x] Message injection into Program
+- [x] Live data display
 
 ## Key Concepts
 1. Background data producer

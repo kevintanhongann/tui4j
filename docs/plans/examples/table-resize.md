@@ -11,14 +11,14 @@ Port the `table-resize` example from [bubbletea/examples/table-resize](https://g
 `examples/generic/table-resize/`
 
 ## Prerequisites
-- [ ] `table` bubble (TODO)
-- [ ] Lipgloss table component (TODO)
+- [x] `table` bubble (TODO)
+- [x] Lipgloss table component (TODO)
 
 ## Features to Implement
-- [ ] Responsive table sizing
-- [ ] Window resize handling
-- [ ] Dynamic column width adjustment
-- [ ] Proper reflow on resize
+- [x] Responsive table sizing
+- [x] Window resize handling
+- [x] Dynamic column width adjustment
+- [x] Proper reflow on resize
 
 ## Key Components
 1. Table bubble with dynamic sizing
@@ -28,3 +28,9 @@ Port the `table-resize` example from [bubbletea/examples/table-resize](https://g
 
 ## Estimated Effort
 Low-Medium - 0.5-1 day (after table bubble)
+
+## Implementation Status
+- [x] Create source file: `examples/generic/src/main/java/com/williamcallahan/tui4j/examples/tableresize/TableResizeExample.java`
+- [x] Create run script: `examples/generic/table-resize/run`
+- [x] Build and verify compilation
+- [x] Run tests to verify no regressions

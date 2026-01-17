@@ -24,7 +24,9 @@ import com.williamcallahan.tui4j.compat.bubbletea.message.ExecCompletedMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.ExecProcessMessage;
 import com.williamcallahan.tui4j.message.OpenUrlMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.message.ResumeMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.SequenceMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.message.SuspendMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.render.Renderer;
 import com.williamcallahan.tui4j.compat.bubbletea.render.StandardRenderer;
@@ -78,6 +80,7 @@ public class Program {
     private boolean hoverTextCursorEnabled;
     private boolean hoverTextCursorActive;
     private boolean mouseClicksEnabled;
+    private volatile boolean isSuspended = false;
 
     private final MouseSelectionAutoScroller mouseSelectionAutoScroller;
 
@@ -187,6 +190,7 @@ public class Program {
         }
 
         handleTerminationSignals();
+        handleSuspendSignals();
         handleTerminalResize();
         mouseSelectionAutoScroller.start();
 
@@ -268,6 +272,11 @@ public class Program {
         Signals.register("TERM", () -> commandExecutor.executeIfPresent(QuitMessage::new, this::send, this::sendError));
     }
 
+    private void handleSuspendSignals() {
+        Signals.register("TSTP", () -> commandExecutor.executeIfPresent(SuspendMessage::new, this::send, this::sendError));
+        Signals.register("CONT", () -> commandExecutor.executeIfPresent(ResumeMessage::new, this::send, this::sendError));
+    }
+
     private void handleTerminalResize() {
         Signals.register("WINCH", () -> commandExecutor.executeIfPresent(CheckWindowSizeMessage::new, this::send, this::sendError));
         commandExecutor.executeIfPresent(CheckWindowSizeMessage::new, this::send, this::sendError);
@@ -321,6 +330,12 @@ public class Program {
                     continue;
                 } else if (msg instanceof ExecProcessMessage execProcessMessage) {
                     executeProcess(execProcessMessage);
+                    continue;
+                } else if (msg instanceof SuspendMessage) {
+                    suspend();
+                    continue;
+                } else if (msg instanceof ResumeMessage) {
+                    resume();
                     continue;
                 }
 
@@ -461,6 +476,10 @@ public class Program {
         }
     }
 
+    public boolean isRunning() {
+        return isRunning.get();
+    }
+
     public void waitForInit() {
         try {
             initLatch.await();
@@ -541,5 +560,26 @@ public class Program {
                 send(new ExecCompletedMessage(-1, e));
             }
         });
+    }
+
+    private void suspend() {
+        if (isSuspended) {
+            return;
+        }
+        isSuspended = true;
+        renderer.showCursor();
+        renderer.stop();
+        terminal.pause();
+    }
+
+    private void resume() {
+        if (!isSuspended) {
+            return;
+        }
+        terminal.resume();
+        renderer.start();
+        renderer.hideCursor();
+        renderer.write(currentModel.view());
+        isSuspended = false;
     }
 }

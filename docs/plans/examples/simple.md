@@ -14,10 +14,10 @@ Port the `simple` example from [bubbletea/examples/simple](https://github.com/ch
 - Core Model/Program (done)
 
 ## Features to Implement
-- [ ] Minimal Bubble Tea application
-- [ ] Basic key handling
-- [ ] Simple counter or choice model
-- [ ] Clean quit handling
+- [x] Minimal Bubble Tea application
+- [x] Basic key handling
+- [x] Simple countdown timer model
+- [x] Clean quit handling
 
 ## Purpose
 Demonstrates the simplest possible Bubble Tea application:

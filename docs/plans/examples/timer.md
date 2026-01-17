@@ -11,15 +11,15 @@ Port the `timer` example from [bubbletea/examples/timer](https://github.com/char
 `examples/generic/timer/`
 
 ## Prerequisites
-- [ ] `timer` bubble (in progress)
+- [x] `timer` bubble (done)
 - [x] `help` bubble (done)
 - [x] `key` bubble (done)
 
 ## Features to Implement
-- [ ] Countdown timer display
-- [ ] Start/stop/reset controls
-- [ ] Timeout notification
-- [ ] Keyboard shortcuts with help
+- [x] Countdown timer display
+- [x] Start/stop/reset controls
+- [x] Timeout notification
+- [x] Keyboard shortcuts with help
 
 ## Key Components
 1. Timer bubble integration

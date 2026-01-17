@@ -11,14 +11,14 @@ Port the `progress-download` example from [bubbletea/examples/progress-download]
 `examples/generic/progress-download/`
 
 ## Prerequisites
-- [ ] `progress` bubble (TODO)
+- [x] `progress` bubble (TODO)
 
 ## Features to Implement
-- [ ] Simulated file download
-- [ ] Progress bar with percentage
-- [ ] Download speed display
-- [ ] ETA calculation
-- [ ] Completion state
+- [x] Simulated file download
+- [x] Progress bar with percentage
+- [x] Download speed display
+- [x] ETA calculation
+- [x] Completion state
 
 ## Key Components
 1. Progress bubble integration

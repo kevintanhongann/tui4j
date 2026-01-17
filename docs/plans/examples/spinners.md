@@ -14,10 +14,10 @@ Port the `spinners` example from [bubbletea/examples/spinners](https://github.co
 - [x] `spinner` bubble (done)
 
 ## Features to Implement
-- [ ] Display all available spinner styles
-- [ ] Grid layout of spinners
-- [ ] Spinner style names
-- [ ] Synchronized animation
+- [x] Display all available spinner styles
+- [x] Grid layout of spinners
+- [x] Spinner style names
+- [x] Synchronized animation
 
 ## Key Components
 1. Multiple spinner instances
@@ -27,3 +27,6 @@ Port the `spinners` example from [bubbletea/examples/spinners](https://github.co
 
 ## Estimated Effort
 Low - 0.5 days
+
+## Status
+COMPLETED

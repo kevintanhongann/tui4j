@@ -89,6 +89,14 @@ The `textinput` example demonstrates a simple TUI4J application using a textinpu
   <img width="750" src="../../assets/textinput-tape.gif" alt="Animation showing TUI4J text input field with typing and cursor" />
 </a>
 
+### Textarea
+
+The `textarea` example demonstrates a multi-line text input area with cursor navigation, line wrapping, and placeholder text.
+
+<a href="./textarea/src/main/java/com/williamcallahan/tui4j/examples/textarea/TextareaExample.java">
+  Code
+</a>
+
 ### Multiple Text Inputs
 
 The `textinputs` example shows multiple `textinputs` and being able to switch focus between them as well as changing the cursor mode.
@@ -176,4 +184,32 @@ See [progress-readme.md](./progress-readme.md) for detailed usage instructions.
 
 <a href="./src/main/java/com/williamcallahan/tui4j/examples/progress/packagemanager/PackageManagerExample.java">
   <img width="750" src="../../assets/package-manager-tape.gif" alt="Animation showing package installation simulation with progress tracking" />
+</a>
+
+### Table
+
+The `table` example demonstrates the table bubble component with data display, row selection, and keyboard navigation.
+
+<a href="./src/main/java/com/williamcallahan/tui4j/examples/table/TableExample.java">
+  <img width="750" src="../../assets/table-tape.gif" alt="Animation showing TUI4J table component with Pokemon data and row selection" />
+</a>
+
+### Table Resize
+
+The `table-resize` example shows the table component with dynamic resizing based on window size.
+
+### Timer
+
+The `timer` example demonstrates a countdown timer with start/stop/reset controls and help display. Ported from Bubble Tea's timer example.
+
+<a href="./src/main/java/com/williamcallahan/tui4j/examples/timer/TimerExample.java">
+  Code
+</a>
+
+### Tabs
+
+The `tabs` example demonstrates a tabbed interface with multiple tabs and content panels using Lipgloss styling.
+
+<a href="./tabs/src/main/java/com/williamcallahan/tui4j/examples/tabs/TabsExample.java">
+  Code
 </a>

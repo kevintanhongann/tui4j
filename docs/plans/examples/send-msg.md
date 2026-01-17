@@ -14,10 +14,10 @@ Port the `send-msg` example from [bubbletea/examples/send-msg](https://github.co
 - Core message/command system (done)
 
 ## Features to Implement
-- [ ] Programmatic message sending
-- [ ] External trigger for messages
-- [ ] Message queue handling
-- [ ] Response to sent messages
+- [x] Programmatic message sending
+- [x] External trigger for messages
+- [x] Message queue handling
+- [x] Response to sent messages
 
 ## Key Concepts
 1. `Program.send(Message)` API

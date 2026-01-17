@@ -105,6 +105,7 @@ public class ProgressDownloadExample implements Model {
             String prefix = i == selectedIndex ? ">" : " ";
             String icon = download.isComplete() ? "✓" : (download.isPaused() ? "⏸" : "↓");
             String status = download.isComplete() ? "Done" : (download.isPaused() ? "Paused" : download.getSpeedFormatted());
+            String eta = download.isComplete() ? "" : (download.isPaused() ? "Paused" : "ETA: " + download.getEtaFormatted());
 
             if (i == selectedIndex) {
                 sb.append(prefix).append(" ").append(icon).append(" ").append(download.getName()).append("\n");
@@ -112,6 +113,9 @@ public class ProgressDownloadExample implements Model {
                 sb.append("      ").append(progressBar.view()).append("\n");
                 sb.append("      ").append(download.getSizeFormatted()).append(" / ").append(download.getTotalSizeFormatted())
                         .append("  ").append(status).append("\n");
+                if (!download.isComplete() && !download.isPaused()) {
+                    sb.append("      ").append(eta).append("\n");
+                }
             } else {
                 double displayPercent = download.getPercent();
                 Progress tempProgress = new Progress()
@@ -148,6 +152,9 @@ public class ProgressDownloadExample implements Model {
         private double lastSpeed;
         private boolean paused;
         private LocalDateTime lastUpdate;
+        private long startTime;
+        private long bytesAtSpeedUpdate;
+        private LocalDateTime speedUpdateTime;
 
         public DownloadFile(String name, long totalBytes, long downloadSpeed) {
             this.name = name;
@@ -156,6 +163,9 @@ public class ProgressDownloadExample implements Model {
             this.lastSpeed = downloadSpeed * 1024;
             this.paused = false;
             this.lastUpdate = LocalDateTime.now();
+            this.startTime = System.currentTimeMillis();
+            this.bytesAtSpeedUpdate = 0;
+            this.speedUpdateTime = LocalDateTime.now();
         }
 
         public void update() {
@@ -164,6 +174,22 @@ public class ProgressDownloadExample implements Model {
             long bytesToDownload = (long) (lastSpeed * 0.05);
             downloadedBytes = Math.min(downloadedBytes + bytesToDownload, totalBytes);
             lastUpdate = LocalDateTime.now();
+
+            updateSpeedEstimate();
+        }
+
+        private void updateSpeedEstimate() {
+            long now = System.currentTimeMillis();
+            long elapsed = now - (speedUpdateTime.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli());
+            if (elapsed > 500) {
+                long bytesDownloaded = downloadedBytes - bytesAtSpeedUpdate;
+                if (bytesDownloaded > 0) {
+                    double newSpeed = (double) bytesDownloaded / (elapsed / 1000.0);
+                    lastSpeed = lastSpeed * 0.7 + newSpeed * 0.3;
+                }
+                bytesAtSpeedUpdate = downloadedBytes;
+                speedUpdateTime = LocalDateTime.now();
+            }
         }
 
         public void togglePause() {
@@ -207,6 +233,19 @@ public class ProgressDownloadExample implements Model {
 
         public String getSpeedFormatted() {
             return formatBytes((long) lastSpeed) + "/s";
+        }
+
+        public String getEtaFormatted() {
+            if (isComplete()) return "";
+            long remainingBytes = totalBytes - downloadedBytes;
+            if (remainingBytes <= 0) return "Almost done";
+            double seconds = remainingBytes / lastSpeed;
+            if (seconds < 1) return "< 1s";
+            if (seconds < 60) return String.format("%ds", (int) seconds);
+            int minutes = (int) (seconds / 60);
+            if (minutes < 60) return String.format("%dm %ds", minutes, (int) (seconds % 60));
+            int hours = minutes / 60;
+            return String.format("%dh %dm", hours, minutes % 60);
         }
 
         private String formatBytes(long bytes) {

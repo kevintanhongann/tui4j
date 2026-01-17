@@ -14,10 +14,10 @@ Port the `suspend` example from [bubbletea/examples/suspend](https://github.com/
 - Core Program suspend functionality
 
 ## Features to Implement
-- [ ] Ctrl+Z suspend handling
-- [ ] Background process (SIGTSTP equivalent)
-- [ ] Resume from suspension
-- [ ] Terminal state restoration
+- [x] Ctrl+Z suspend handling
+- [x] Background process (SIGTSTP equivalent)
+- [x] Resume from suspension
+- [x] Terminal state restoration
 
 ## Platform Notes
 - Unix: SIGTSTP/SIGCONT signals

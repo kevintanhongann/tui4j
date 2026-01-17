@@ -11,15 +11,15 @@ Port the `stopwatch` example from [bubbletea/examples/stopwatch](https://github.
 `examples/generic/stopwatch/`
 
 ## Prerequisites
-- [ ] `stopwatch` bubble (TODO)
+- [x] `stopwatch` bubble (done)
 - [x] `help` bubble (done)
 - [x] `key` bubble (done)
 
 ## Features to Implement
-- [ ] Running time display
-- [ ] Start/stop/reset controls
-- [ ] Keyboard shortcuts
-- [ ] Help bar with key bindings
+- [x] Running time display
+- [x] Start/stop/reset controls
+- [x] Keyboard shortcuts
+- [x] Help bar with key bindings
 
 ## Key Components
 1. Stopwatch bubble integration
@@ -29,3 +29,11 @@ Port the `stopwatch` example from [bubbletea/examples/stopwatch](https://github.
 
 ## Estimated Effort
 Low - 0.5 days (after stopwatch bubble)
+
+## Implementation Status
+COMPLETED
+
+## Implementation Details
+- **Stopwatch bubble**: `src/main/java/com/williamcallahan/tui4j/compat/bubbletea/bubbles/stopwatch/Stopwatch.java`
+- **Example**: `examples/generic/src/main/java/com/williamcallahan/tui4j/examples/stopwatch/StopwatchExample.java`
+- **Tests**: 24 tests passing (StopwatchTest.java, StopwatchFormatTest.java)
