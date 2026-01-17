@@ -15,11 +15,11 @@ Port the `help` example from [bubbletea/examples/help](https://github.com/charmb
 - [x] `key` bubble (done)
 
 ## Features to Implement
-- [ ] Define key bindings with descriptions
-- [ ] Short help view (inline)
-- [ ] Full help view (expanded)
-- [ ] Toggle between help modes
-- [ ] Styled help output
+- [x] Define key bindings with descriptions
+- [x] Short help view (inline)
+- [x] Full help view (expanded)
+- [x] Toggle between help modes
+- [x] Styled help output
 
 ## Key Components
 1. KeyMap definition with help text

@@ -10,10 +10,14 @@ Port the `glamour` example from [bubbletea/examples/glamour](https://github.com/
 ## Target Directory
 `examples/generic/glamour/`
 
+## Current Status
+**🔴 BLOCKED** - The glamour library (Markdown renderer) has not been ported yet.
+
 ## Prerequisites
 - [ ] Port of `glamour` library (Markdown rendering)
+  - STATUS.md entry: `⚪ TODO` - "Needs any reasonable port of glamour"
 
-## Features to Implement
+## Features to Implement (after library port)
 - [ ] Render Markdown to styled terminal output
 - [ ] Code block syntax highlighting
 - [ ] Headers, lists, blockquotes styling
@@ -29,6 +33,12 @@ Requires a port of [glamour](https://github.com/charmbracelet/glamour) - a Markd
 3. **Java library**: Use existing Java Markdown library + custom terminal renderer
    - [commonmark-java](https://github.com/commonmark/commonmark-java) for parsing
    - Custom renderer for ANSI output
+
+## Upstream Example Code
+The upstream example uses:
+- `glamour.NewTermRenderer()` with `WithAutoStyle()` and `WithWordWrap()`
+- `viewport.Model` for scrollable content
+- Bubble Tea architecture (Model, Update, View)
 
 ## Estimated Effort
 High - 5+ days (if building glamour port)
