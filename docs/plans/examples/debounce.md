@@ -14,10 +14,10 @@ Port the `debounce` example from [bubbletea/examples/debounce](https://github.co
 - Core command/message system (done)
 
 ## Features to Implement
-- [ ] Debounced command execution
-- [ ] Timer-based delay before action
-- [ ] Cancel pending debounced commands
-- [ ] Visual feedback during debounce
+- [x] Debounced command execution
+- [x] Timer-based delay before action
+- [x] Cancel pending debounced commands
+- [x] Visual feedback during debounce
 
 ## Key Concepts Demonstrated
 1. Command timing patterns

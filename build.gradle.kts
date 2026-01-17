@@ -266,6 +266,7 @@ tasks.register("copyAllExampleJars") {
     val exampleDirs = listOf(
         file("${projectDir}/examples/generic"),
         file("${projectDir}/examples/generic/autocomplete"),
+        file("${projectDir}/examples/generic/debounce"),
         file("${projectDir}/examples/generic/progress-static"),
         file("${projectDir}/examples/generic/progress-animated"),
         file("${projectDir}/examples/generic/progress-download"),
