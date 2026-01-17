@@ -8,24 +8,34 @@ Port the `cellbuffer` example from [bubbletea/examples/cellbuffer](https://githu
 - **Path**: `examples/cellbuffer/`
 
 ## Target Directory
-`examples/generic/cellbuffer/`
+`examples/generic/src/main/java/com/williamcallahan/tui4j/examples/cellbuffer/`
 
 ## Prerequisites
-- [ ] Port of `harmonica` library (spring animation physics)
+- [x] Port of `harmonica` library (spring animation physics)
 
-## Features to Implement
-- [ ] Cell-based rendering buffer
-- [ ] Smooth animation using spring physics
-- [ ] Direct cell manipulation for performance
+## Features Implemented
+- [x] Cell-based rendering buffer
+- [x] Smooth animation using spring physics
+- [x] Direct cell manipulation for performance
 
-## Blockers
-Requires a reasonable port of [harmonica](https://github.com/charmbracelet/harmonica) for spring physics animation.
+## Implementation Details
 
-## Alternative Approach
-Could implement simplified spring animation without full harmonica port:
-- Basic spring physics formula
-- Frame-based animation loop
-- Configurable damping/frequency
+### Harmonca Spring Physics (`com.williamcallahan.tui4j.compat.bubbletea.harmonica.Spring`)
+- Ported from Go's harmonica library
+- Implements damped harmonic oscillator (spring physics)
+- Precomputed coefficients for efficient updates
+- Supports over-damped, critically-damped, and under-damped spring behavior
 
-## Estimated Effort
-Medium - 2-3 days (includes simplified harmonica)
+### Cellbuffer Example (`com.williamcallahan.tui4j.examples.cellbuffer.CellExample`)
+- Cell-based rendering buffer for direct manipulation
+- Smooth ellipse animation using spring physics
+- Mouse tracking for interactive control
+- Ellipse drawing algorithm (midpoint ellipse algorithm)
+
+## Files Created
+- `src/main/java/com/williamcallahan/tui4j/compat/bubbletea/harmonica/Spring.java`
+- `examples/generic/src/main/java/com/williamcallahan/tui4j/examples/cellbuffer/CellExample.java`
+
+## Verification
+- `./gradlew build` - BUILD SUCCESSFUL
+- All 486 tests pass
