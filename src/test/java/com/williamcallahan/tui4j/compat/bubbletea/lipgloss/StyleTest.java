@@ -3,6 +3,8 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.AdaptiveColor;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.Color;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.Border;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.StandardBorder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -45,7 +47,16 @@ class StyleTest {
                 Arguments.of("italic", "hello", renderer.newStyle().italic(true), "\u001B[3mhello\u001B[0m"),
                 Arguments.of("underline", "hello", renderer.newStyle().underline(true), "\u001B[4mhello\u001B[0m"),
                 Arguments.of("blink", "hello", renderer.newStyle().blink(true), "\u001B[5mhello\u001B[0m"),
-                Arguments.of("faint", "hello", renderer.newStyle().faint(true), "\u001B[2mhello\u001B[0m")
+                Arguments.of("faint", "hello", renderer.newStyle().faint(true), "\u001B[2mhello\u001B[0m"),
+                Arguments.of("maxWidth truncation", "hello world", renderer.newStyle().maxWidth(5), "hello"),
+                Arguments.of("maxWidth truncation with ellipsis", "hello world", renderer.newStyle().maxWidth(5).ellipsis("..."), "he..."),
+                Arguments.of("maxWidth zero is unlimited", "hello world", renderer.newStyle().maxWidth(0), "hello world"),
+                Arguments.of("maxHeight truncation", "line1\nline2\nline3\nline4", renderer.newStyle().maxHeight(2), "line1\nline2"),
+                Arguments.of("maxHeight zero is unlimited", "line1\nline2\nline3", renderer.newStyle().maxHeight(0), "line1\nline2\nline3"),
+                Arguments.of("maxWidth truncation with multiline text", "line1\nline22222\nline3", renderer.newStyle().maxWidth(5), "line1\nline2\nline3"),
+                Arguments.of("maxHeight with border", "line1\nline2\nline3", renderer.newStyle().maxHeight(1).borderDecoration(StandardBorder.NormalBorder), "┌─────┐"),
+                Arguments.of("maxHeight truncation with multiline", "line1\nline2\nline3\nline4\nline5", renderer.newStyle().maxHeight(3), "line1\nline2\nline3"),
+                Arguments.of("maxWidth with multiline and ellipsis", "line1_extra\nline2_extra\nline3_extra", renderer.newStyle().maxWidth(5).ellipsis(".."), "lin..\nlin..\nlin..")
         );
     }
 }

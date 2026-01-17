@@ -1,6 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
 
 import com.williamcallahan.tui4j.ansi.TextWrapper;
+import com.williamcallahan.tui4j.ansi.Truncate;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.align.AlignmentDecorator;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.Border;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
@@ -45,6 +46,9 @@ public class Style implements Cloneable {
     private boolean inline;
     private int width;
     private int height;
+    private int maxWidth;
+    private int maxHeight;
+    private String ellipsis = "";
     private Position horizontalAlign = Position.Left;
     private Position verticalAlign = Position.Top;
 
@@ -141,6 +145,21 @@ public class Style implements Cloneable {
         return this;
     }
 
+    public Style maxWidth(int maxWidth) {
+        this.maxWidth = maxWidth;
+        return this;
+    }
+
+    public Style maxHeight(int maxHeight) {
+        this.maxHeight = maxHeight;
+        return this;
+    }
+
+    public Style ellipsis(String ellipsis) {
+        this.ellipsis = ellipsis;
+        return this;
+    }
+
     public Style align(Position... positions) {
         if (positions.length > 0) {
             this.horizontalAlign = positions[0];
@@ -158,6 +177,24 @@ public class Style implements Cloneable {
 
     public Style alignVertical(Position position) {
         this.verticalAlign = position;
+        return this;
+    }
+
+    public int getMaxWidth() {
+        return maxWidth;
+    }
+
+    public int getMaxHeight() {
+        return maxHeight;
+    }
+
+    public Style unsetMaxWidth() {
+        this.maxWidth = 0;
+        return this;
+    }
+
+    public Style unsetMaxHeight() {
+        this.maxHeight = 0;
         return this;
     }
 
@@ -447,6 +484,25 @@ public class Style implements Cloneable {
 
             string = MarginDecorator.applyMargins(string, topMargin, rightMargin, bottomMargin, leftMargin, st, renderer);
         }
+
+        if (maxWidth > 0) {
+            String[] maxWidthLines = string.split("\n");
+            for (int i = 0; i < maxWidthLines.length; i++) {
+                maxWidthLines[i] = Truncate.truncate(maxWidthLines[i], maxWidth, ellipsis);
+            }
+            string = String.join("\n", maxWidthLines);
+        }
+
+        if (maxHeight > 0) {
+            String[] maxHeightLines = string.split("\n");
+            int height = Math.min(maxHeight, maxHeightLines.length);
+            if (maxHeightLines.length > 0) {
+                String[] truncatedLines = new String[height];
+                System.arraycopy(maxHeightLines, 0, truncatedLines, 0, height);
+                string = String.join("\n", truncatedLines);
+            }
+        }
+
         return string;
     }
 
