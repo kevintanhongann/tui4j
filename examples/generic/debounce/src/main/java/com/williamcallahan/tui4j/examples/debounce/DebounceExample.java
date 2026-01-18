@@ -39,7 +39,7 @@ public class DebounceExample implements Model {
         return UpdateResult.from(this,
                 Command.batch(
                         Command.tick(DEBOUNCE_DURATION, __ -> new ExitMsg(tag)),
-                        spinner::tick));
+                        Command.ofMsg(spinner::tick)));
         }
 
         if (msg instanceof ExitMsg exitMsg) {
@@ -49,8 +49,8 @@ public class DebounceExample implements Model {
             }
         }
 
-        if (spinner.update(msg).command() != null) {
-            UpdateResult<Spinner> spinnerResult = spinner.update(msg);
+        UpdateResult<Spinner> spinnerResult = spinner.update(msg);
+        if (spinnerResult.command() != null) {
             spinner = spinnerResult.model();
             return UpdateResult.from(this, spinnerResult.command());
         }
