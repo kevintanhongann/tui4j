@@ -5,7 +5,6 @@ import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbletea.bubbles.viewport.Viewport;
-import com.williamcallahan.tui4j.compat.bubbletea.input.key.Key;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyType;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
@@ -67,8 +66,7 @@ public class PagerExample implements Model {
         }
 
         if (msg instanceof KeyPressMessage keyPress) {
-            Key key = keyPress.key();
-            String keyStr = key.value();
+            String keyStr = keyPress.key();
             if ("ctrl+c".equals(keyStr) || "q".equals(keyStr) || "esc".equals(keyStr)) {
                 return UpdateResult.from(this, QuitMessage::new);
             }

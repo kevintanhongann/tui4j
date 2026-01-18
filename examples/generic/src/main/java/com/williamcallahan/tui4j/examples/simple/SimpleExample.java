@@ -53,6 +53,9 @@ public class SimpleExample implements Model {
                 """, seconds);
     }
 
+    private static class TickMessage implements Message {
+    }
+
     private static Message tick() {
         try {
             Thread.sleep(1000);

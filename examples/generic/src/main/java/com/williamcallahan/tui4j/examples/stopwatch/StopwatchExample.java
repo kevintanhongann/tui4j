@@ -65,7 +65,7 @@ public class StopwatchExample implements Model {
                 return UpdateResult.from(this, Command.quit());
             }
             if (Binding.matches(keyPressMessage, keys.start(), keys.stop())) {
-                UpdateResult<Stopwatch> updateResult = stopwatch.update(msg);
+                UpdateResult<Stopwatch> updateResult = stopwatch.update(new StartStopMsg(stopwatch.id()));
                 this.stopwatch = updateResult.model();
                 return UpdateResult.from(this, updateResult.command());
             }

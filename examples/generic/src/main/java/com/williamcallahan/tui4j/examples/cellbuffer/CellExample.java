@@ -8,8 +8,9 @@ import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbletea.harmonica.Spring;
 import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
-
 import java.time.Duration;
+import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
 
 public class CellExample implements Model {
 
@@ -100,21 +101,21 @@ public class CellExample implements Model {
             }
         }
 
-        if (msg instanceof WindowSizeMsg windowSizeMsg) {
+        if (msg instanceof WindowSizeMessage windowSizeMessage) {
             if (!cells.ready()) {
-                targetX = windowSizeMsg.width() / 2.0;
-                targetY = windowSizeMsg.height() / 2.0;
+                targetX = windowSizeMessage.width() / 2.0;
+                targetY = windowSizeMessage.height() / 2.0;
             }
-            cells.init(windowSizeMsg.width(), windowSizeMsg.height());
+            cells.init(windowSizeMessage.width(), windowSizeMessage.height());
             return UpdateResult.from(this);
         }
 
-        if (msg instanceof MouseMsg mouseMsg) {
+        if (msg instanceof MouseMessage mouseMessage) {
             if (!cells.ready()) {
                 return UpdateResult.from(this);
             }
-            targetX = mouseMsg.x();
-            targetY = mouseMsg.y();
+            targetX = mouseMessage.column();
+            targetY = mouseMessage.row();
             return UpdateResult.from(this);
         }
 
@@ -207,41 +208,5 @@ public class CellExample implements Model {
     }
 
     private static class FrameMsg implements Message {
-    }
-
-    private static class WindowSizeMsg implements Message {
-        private final int width;
-        private final int height;
-
-        public WindowSizeMsg(int width, int height) {
-            this.width = width;
-            this.height = height;
-        }
-
-        public int width() {
-            return width;
-        }
-
-        public int height() {
-            return height;
-        }
-    }
-
-    private static class MouseMsg implements Message {
-        private final int x;
-        private final int y;
-
-        public MouseMsg(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public int x() {
-            return x;
-        }
-
-        public int y() {
-            return y;
-        }
     }
 }

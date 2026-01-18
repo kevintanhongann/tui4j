@@ -81,17 +81,14 @@ public class CreditCardFormExample implements Model {
                 case "tab", "ctrl+n":
                     nextInput();
                     break;
+                default:
+                    Command[] cmds = new Command[inputs.length];
+                    for (int i = 0; i < inputs.length; i++) {
+                        UpdateResult<? extends Model> result = inputs[i].update(msg);
+                        cmds[i] = result.command();
+                    }
+                    return UpdateResult.from(this, Command.batch(cmds));
             }
-
-            Command[] cmds = new Command[inputs.length];
-            for (int i = 0; i < inputs.length; i++) {
-                if (i == focused) {
-                    cmds[i] = inputs[i].focus();
-                } else {
-                    inputs[i].blur();
-                }
-            }
-            return UpdateResult.from(this, Command.batch(cmds));
         }
 
         Command[] cmds = new Command[inputs.length];
