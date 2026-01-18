@@ -36,9 +36,10 @@ public class DebounceExample implements Model {
     public UpdateResult<? extends Model> update(Message msg) {
         if (msg instanceof KeyPressMessage keyPressMessage) {
             tag++;
-            return UpdateResult.from(this,
-                    Command.tick(DEBOUNCE_DURATION, __ -> new ExitMsg(tag)),
-                    spinner.tick());
+        return UpdateResult.from(this,
+                Command.batch(
+                        Command.tick(DEBOUNCE_DURATION, __ -> new ExitMsg(tag)),
+                        spinner::tick));
         }
 
         if (msg instanceof ExitMsg exitMsg) {
