@@ -17,12 +17,13 @@ import java.nio.file.Paths;
 
 public class FilePickerExample implements Model {
 
-    private final FilePicker filePicker;
+    private FilePicker filePicker;
     private final Help help;
     private final FilePickerKeyMap keys;
     private String selectedFile;
     private boolean quitting;
     private String errorMessage;
+    private long errorTimestamp;
 
     public FilePickerExample() {
         this.filePicker = new FilePicker();
