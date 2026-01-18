@@ -76,7 +76,6 @@ public class AutocompleteExample implements Model {
         }
 
         UpdateResult<TextInput> result = textInput.update(msg);
-        this.textInput = result.model();
         return UpdateResult.from(this, result.command());
     }
 
