@@ -9,6 +9,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
 import com.williamcallahan.tui4j.message.ErrorMessage;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -59,13 +60,12 @@ public class FilePicker implements Model {
     private Stack maxStack;
     private Styles styles;
     private String cursorChar;
-    private AtomicInteger nextId;
+    private static final AtomicInteger nextId = new AtomicInteger(1);
     private boolean widthSet;
     private int terminalWidth;
     private List<String> readErrors;
 
     public FilePicker() {
-        this.nextId = new AtomicInteger(1);
         this.id = generateId();
         this.currentDirectory = ".";
         this.cursorChar = DEFAULT_CURSOR;
@@ -123,9 +123,9 @@ public class FilePicker implements Model {
                             }
 
                             long size = Files.size(p);
-                            String permissions = Files.getPosixFilePermissions(p).toString();
+                            String permissions = getPermissions(p);
                             entries.add(new DirEntry(name, isDir, isSymlink, size, permissions));
-                        } catch (Exception e) {
+                        } catch (IOException e) {
                              String errorMsg = "Failed to read: " + p.getFileName() + " (" + e.getMessage() + ")";
                              errors.add(errorMsg);
                              logger.log(Level.WARNING, "Failed to read entry " + p, e);
@@ -133,7 +133,7 @@ public class FilePicker implements Model {
                     });
                 }
                 return new ReadDirMessage(this.id, entries, errors);
-            } catch (Exception e) {
+            } catch (IOException e) {
                 return new ErrorMessage(e);
             }
         };
@@ -142,11 +142,21 @@ public class FilePicker implements Model {
     private static boolean isNotDir(Path p) {
         try {
             return !Files.isDirectory(p);
-        } catch (Exception e) {
-            // Don't swallow, but we can't easily propagate inside stream comparator
-            // Log and fallback to file (safe default)
-            logger.log(Level.WARNING, "Failed to determine directory status for " + p, e);
+        } catch (SecurityException e) {
+            // Can't propagate inside stream comparator; fallback to treating as file
+            logger.log(Level.WARNING, "Security exception checking directory status for " + p, e);
             return false;
+        }
+    }
+
+    private static String getPermissions(Path p) throws IOException {
+        try {
+            return Files.getPosixFilePermissions(p).toString();
+        } catch (UnsupportedOperationException e) {
+            // Non-POSIX filesystem (Windows)
+            return (Files.isReadable(p) ? "r" : "-")
+                    + (Files.isWritable(p) ? "w" : "-")
+                    + (Files.isExecutable(p) ? "x" : "-");
         }
     }
 
@@ -221,6 +231,9 @@ public class FilePicker implements Model {
             this.max = Math.max(0, this.files.size() - 1);
             return true;
         } else if (Binding.matches(keyMsg, keyMap.down())) {
+            if (this.files.isEmpty()) {
+                return true;
+            }
             this.selected++;
             if (this.selected >= this.files.size()) {
                 this.selected = this.files.size() - 1;
@@ -283,7 +296,7 @@ public class FilePicker implements Model {
             try {
                 Path symlinkPath = Files.readSymbolicLink(Paths.get(this.currentDirectory, f.name()));
                 isDir = Files.isDirectory(symlinkPath);
-            } catch (Exception e) {
+            } catch (IOException e) {
                 return UpdateResult.from(this, () -> new ErrorMessage(e));
             }
         }
@@ -354,7 +367,7 @@ public class FilePicker implements Model {
                 try {
                     Path symlinkPath = Files.readSymbolicLink(Paths.get(this.currentDirectory, f.name()));
                     selectedBuilder.append(" → ").append(symlinkPath);
-                } catch (Exception e) {
+                } catch (IOException e) {
                     logger.log(Level.WARNING, "Failed to resolve symlink for " + f.name(), e);
                 }
             }
@@ -386,7 +399,7 @@ public class FilePicker implements Model {
             try {
                 Path symlinkPath = Files.readSymbolicLink(Paths.get(this.currentDirectory, f.name()));
                 fileName += " → " + symlinkPath;
-            } catch (Exception e) {
+            } catch (IOException e) {
                 logger.log(Level.WARNING, "Failed to resolve symlink for " + f.name(), e);
             }
         }
@@ -449,7 +462,7 @@ public class FilePicker implements Model {
                 try {
                     Path symlinkPath = Files.readSymbolicLink(Paths.get(this.currentDirectory, f.name()));
                     isDir = Files.isDirectory(symlinkPath);
-                } catch (Exception e) {
+                } catch (IOException e) {
                     logger.log(Level.WARNING, "Failed to resolve symlink for " + f.name(), e);
                     return false;
                 }
