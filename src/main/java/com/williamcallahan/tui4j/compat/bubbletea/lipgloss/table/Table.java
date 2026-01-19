@@ -53,6 +53,7 @@ public class Table {
         this.renderer = renderer;
         this.border = createDefaultBorder();
         this.borderStyle = Style.newStyle();
+        this.data = new StringData();
     }
 
     private Border createDefaultBorder() {
@@ -185,8 +186,9 @@ public class Table {
             return "";
         }
 
+        int dataColumns = data != null ? data.columns() : 0;
         if (hasHeaders) {
-            while (headers.size() < data.columns()) {
+            while (headers.size() < dataColumns) {
                 headers.add("");
             }
         }
@@ -208,7 +210,7 @@ public class Table {
             bottom = constructBottomBorder();
         }
 
-        if (data.rows() > 0) {
+        if (hasRows) {
             if (useManualHeight) {
                 int topHeight = Size.height(sb.toString()) - 1;
                 int availableLines = height - (topHeight + Size.height(bottom));
@@ -380,25 +382,60 @@ public class Table {
         }
 
         List<String> cells = new ArrayList<>();
-        String leftBorder = borderStyle.render(border.left()) + "\n";
+        String leftBorder = (borderStyle.render(border.left()) + "\n").repeat(rowHeight);
         if (borderLeft) {
-            for (int i = 0; i < rowHeight; i++) {
+            cells.add(leftBorder);
+        }
+
+        int numCols = data != null ? data.columns() : 0;
+        for (int c = 0; c < numCols; c++) {
+            String cell = isOverflow ? "…" : (c < numCols ? data.at(index, c) : "");
+            Style cellStyle = style(index, c);
+
+            if (!wrap) {
+                cell = truncateCell(cell, index, c);
+            }
+
+            int cellWidth = c < widths.length ? widths[c] : 0;
+            String renderedCell = cellStyle
+                    .height(rowHeight - cellStyle.getVerticalMargins())
+                    .width(cellWidth - cellStyle.getHorizontalMargins())
+                    .render(cell);
+            cells.add(renderedCell);
+
+            if (c < numCols - 1 && borderColumn) {
                 cells.add(leftBorder);
             }
         }
 
         if (borderRight) {
-            String rightBorder = borderStyle.render(border.right()) + "\n";
-            for (int i = 0; i < rowHeight; i++) {
-                cells.add(rightBorder);
-            }
+            String rightBorder = (borderStyle.render(border.right()) + "\n").repeat(rowHeight);
+            cells.add(rightBorder);
         }
 
         for (int i = 0; i < cells.size(); i++) {
             cells.set(i, cells.get(i).replaceAll("\n$", ""));
         }
 
-        return joinHorizontal(cells.toArray(new String[0]));
+        s.append(joinHorizontal(cells.toArray(new String[0]))).append("\n");
+
+        if (borderRow && index < data.rows() - 1 && !isOverflow) {
+            if (borderLeft) {
+                s.append(borderStyle.render(border.middleLeft()));
+            }
+            for (int i = 0; i < widths.length; i++) {
+                s.append(borderStyle.render(border.bottom().repeat(widths[i])));
+                if (i < widths.length - 1 && borderColumn) {
+                    s.append(borderStyle.render(border.middle()));
+                }
+            }
+            if (borderRight) {
+                s.append(borderStyle.render(border.middleRight()));
+            }
+            s.append("\n");
+        }
+
+        return s.toString();
     }
 
     private String joinHorizontal(String... parts) {
