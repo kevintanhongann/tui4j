@@ -235,6 +235,9 @@ public class Progress implements Model {
 
     @Override
     public UpdateResult<Progress> update(Message msg) {
+        if (msg instanceof SetPercentMsg setMsg) {
+            return UpdateResult.from(this, setPercent(setMsg.percent()));
+        }
         if (msg instanceof FrameMsg frameMsg) {
             if (frameMsg.id() != id || frameMsg.tag() != tag) {
                 return UpdateResult.from(this);
