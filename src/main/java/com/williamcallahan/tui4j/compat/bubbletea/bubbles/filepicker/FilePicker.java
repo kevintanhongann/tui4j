@@ -178,7 +178,11 @@ public class FilePicker implements Model {
             }
             this.files = readDirMsg.entries();
             this.readErrors = readDirMsg.errors();
-            this.max = Math.max(this.max, this.height - 1);
+            // Clamp selection indices to prevent out-of-bounds access when directory shrinks
+            int lastIndex = Math.max(0, this.files.size() - 1);
+            this.selected = Math.min(this.selected, lastIndex);
+            this.min = Math.min(this.min, this.selected);
+            this.max = Math.min(lastIndex, Math.max(0, this.min + this.height - 1));
             return UpdateResult.from(this);
         } else if (msg instanceof ErrorMessage errorMsg) {
             logger.log(Level.WARNING, "File picker failed to read directory", errorMsg.error());
@@ -258,7 +262,7 @@ public class FilePicker implements Model {
 
             if (this.max >= this.files.size()) {
                 this.max = Math.max(0, this.files.size() - 1);
-                this.min = Math.max(0, this.max - this.height);
+                this.min = Math.max(0, this.max - this.height + 1);
             }
             return true;
         } else if (Binding.matches(keyMsg, keyMap.pageUp())) {
@@ -271,7 +275,7 @@ public class FilePicker implements Model {
 
             if (this.min < 0) {
                 this.min = 0;
-                this.max = this.min + this.height;
+                this.max = Math.min(this.files.size() - 1, this.min + this.height - 1);
             }
             return true;
         }
@@ -289,8 +293,10 @@ public class FilePicker implements Model {
 
         if (isSymlink) {
             try {
-                Path symlinkPath = Files.readSymbolicLink(Paths.get(this.currentDirectory, f.name()));
-                isDir = Files.isDirectory(symlinkPath);
+                Path linkPath = Paths.get(this.currentDirectory, f.name());
+                Path symlinkTarget = Files.readSymbolicLink(linkPath);
+                Path resolved = linkPath.getParent().resolve(symlinkTarget).normalize();
+                isDir = Files.isDirectory(resolved);
             } catch (IOException e) {
                 return UpdateResult.from(this, () -> new ErrorMessage(e));
             }
@@ -455,8 +461,10 @@ public class FilePicker implements Model {
 
             if (isSymlink) {
                 try {
-                    Path symlinkPath = Files.readSymbolicLink(Paths.get(this.currentDirectory, f.name()));
-                    isDir = Files.isDirectory(symlinkPath);
+                    Path linkPath = Paths.get(this.currentDirectory, f.name());
+                    Path symlinkTarget = Files.readSymbolicLink(linkPath);
+                    Path resolved = linkPath.getParent().resolve(symlinkTarget).normalize();
+                    isDir = Files.isDirectory(resolved);
                 } catch (IOException e) {
                     logger.log(Level.WARNING, "Failed to resolve symlink for " + f.name(), e);
                     return false;
