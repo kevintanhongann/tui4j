@@ -41,6 +41,7 @@ import org.jline.utils.InfoCmp;
 import org.jline.utils.Signals;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletableFuture;
@@ -549,27 +550,47 @@ public class Program {
         Process process = execProcessMessage.process();
         BiConsumer<Integer, byte[]> outputHandler = execProcessMessage.outputHandler();
         BiConsumer<Integer, byte[]> errorHandler = execProcessMessage.errorHandler();
-        
-        suspend(); // Explicitly suspend the renderer and event loop interactions
-        
+
+        suspend();
+
         try {
-            // Terminal is already paused by suspend(), but we ensure raw mode is exited if needed
-            // Bubbles/Tea usually relies on restoreTerminal() which suspend() does.
-            
+            // Drain stdout/stderr concurrently to prevent deadlock from filled buffers
+            CompletableFuture<byte[]> stdoutFuture =
+                CompletableFuture.supplyAsync(() -> {
+                    try {
+                        return ExecProcessMessage.readStream(process.getInputStream());
+                    } catch (IOException e) {
+                        throw new UncheckedIOException("Failed to read stdout", e);
+                    }
+                });
+            CompletableFuture<byte[]> stderrFuture =
+                CompletableFuture.supplyAsync(() -> {
+                    try {
+                        return ExecProcessMessage.readStream(process.getErrorStream());
+                    } catch (IOException e) {
+                        throw new UncheckedIOException("Failed to read stderr", e);
+                    }
+                });
+
             int exitCode = process.waitFor();
+
             if (outputHandler != null) {
-                byte[] output = ExecProcessMessage.readStream(process.getInputStream());
+                byte[] output = stdoutFuture.get();
                 outputHandler.accept(exitCode, output);
             }
             if (errorHandler != null) {
-                byte[] error = ExecProcessMessage.readStream(process.getErrorStream());
+                byte[] error = stderrFuture.get();
                 errorHandler.accept(exitCode, error);
             }
 
             send(new ExecCompletedMessage(exitCode, null));
-        } catch (Exception e) {
-            logger.log(Level.WARNING, "Error executing process", e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             send(new ExecCompletedMessage(-1, e));
+        } catch (java.util.concurrent.ExecutionException e) {
+            Throwable cause = e.getCause() != null ? e.getCause() : e;
+            logger.log(Level.WARNING, "Error reading process streams", cause);
+            send(new ExecCompletedMessage(-1, cause));
         } finally {
             resume(); // Restore terminal and renderer
         }
@@ -581,7 +602,7 @@ public class Program {
         }
         isSuspended = true;
         renderer.showCursor();
-        renderer.stop();
+        renderer.pause();
         terminal.pause();
     }
 
@@ -590,7 +611,7 @@ public class Program {
             return;
         }
         terminal.resume();
-        renderer.start();
+        renderer.resume();
         renderer.hideCursor();
         renderer.write(currentModel.view());
         isSuspended = false;

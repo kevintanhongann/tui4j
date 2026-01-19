@@ -15,10 +15,16 @@ public interface Renderer {
      */
     void start();
 
-    /**
-     * Stops the renderer loop and cleans up resources.
-     */
+    /** Stops the renderer loop and cleans up resources. Not resumable; use pause()/resume() instead. */
     void stop();
+
+    /** Pauses rendering without destroying resources. */
+    default void pause() {
+    }
+
+    /** Resumes rendering after pause(). */
+    default void resume() {
+    }
 
     /**
      * Writes the given view string to the terminal buffer.

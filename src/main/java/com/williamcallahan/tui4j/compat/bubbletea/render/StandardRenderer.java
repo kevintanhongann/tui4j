@@ -96,6 +96,16 @@ public class StandardRenderer implements Renderer {
         }
     }
 
+    @Override
+    public void pause() {
+        isRunning = false;
+    }
+
+    @Override
+    public void resume() {
+        isRunning = true;
+    }
+
     private void flush() {
         if (!needsRender) {
             return;
