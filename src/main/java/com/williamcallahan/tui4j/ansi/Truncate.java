@@ -1,85 +1,86 @@
 package com.williamcallahan.tui4j.ansi;
 
-import java.nio.charset.StandardCharsets;
+import com.williamcallahan.tui4j.compat.x.ansi.Ansi;
+import com.williamcallahan.tui4j.compat.x.ansi.Strip;
+
+import java.util.Objects;
 
 /**
- * Truncates text by display width.
- * tui4j: src/main/java/com/williamcallahan/tui4j/ansi/Truncate.java
+ * ANSI-aware text truncation and cutting utilities.
+ * <p>
+ * Re-exports functionality from the canonical port at
+ * {@link com.williamcallahan.tui4j.compat.x.ansi}.
  */
 public class Truncate {
 
+    /**
+     * Truncates a string to a given display width, adding a tail if truncated.
+     * ANSI escape codes are preserved and not counted toward width.
+     *
+     * @param input the input string (must not be null)
+     * @param length the maximum cell width
+     * @param tail the tail to append if truncated (must not be null)
+     * @return the truncated string
+     * @throws NullPointerException if input or tail is null
+     */
     public static String truncate(String input, int length, String tail) {
-        int len = length;
-        if (TextWidth.measureCellWidth(input) <= len) {
-            return input;
-        }
+        Objects.requireNonNull(input, "input");
+        Objects.requireNonNull(tail, "tail");
+        return com.williamcallahan.tui4j.compat.x.ansi.Truncate.truncate(input, length, tail);
+    }
 
-        int tw = TextWidth.measureCellWidth(tail);
-        len -= tw;
-        if (len < 0) {
-            return "";
-        }
+    /**
+     * Truncates a string from the left by removing n display width characters.
+     * ANSI escape codes are preserved and not counted toward width.
+     *
+     * @param input the input string (must not be null)
+     * @param n the number of cells to remove from the left
+     * @param prefix the prefix to prepend after truncation (must not be null)
+     * @return the truncated string
+     * @throws NullPointerException if input or prefix is null
+     */
+    public static String truncateLeft(String input, int n, String prefix) {
+        Objects.requireNonNull(input, "input");
+        Objects.requireNonNull(prefix, "prefix");
+        return com.williamcallahan.tui4j.compat.x.ansi.Truncate.truncateLeft(input, n, prefix);
+    }
 
-        int curWidth = 0;
-        boolean ignoring = false;
-        TransitionTable table = TransitionTable.get();
-        State pstate = State.GROUND;
-        byte[] b = input.getBytes(StandardCharsets.UTF_8);
+    /**
+     * Cuts a string to display a portion from left to right positions.
+     * ANSI escape codes within the visible region are preserved.
+     *
+     * @param input the input string (must not be null)
+     * @param left start position (inclusive)
+     * @param right end position (exclusive)
+     * @return the cut string
+     * @throws NullPointerException if input is null
+     */
+    public static String cut(String input, int left, int right) {
+        Objects.requireNonNull(input, "input");
+        return com.williamcallahan.tui4j.compat.x.ansi.Cut.cut(input, left, right);
+    }
 
-        StringBuilder buf = new StringBuilder();
-        for (int i = 0; i < b.length; ) {
-            byte byteValue = b[i];
+    /**
+     * Removes all ANSI escape codes from a string.
+     *
+     * @param input the input string (must not be null)
+     * @return the string with ANSI codes removed
+     * @throws NullPointerException if input is null
+     */
+    public static String strip(String input) {
+        Objects.requireNonNull(input, "input");
+        return Strip.strip(input);
+    }
 
-            TransitionTable.Transition transition = table.transition(pstate, byteValue);
-            State state = transition.state();
-            Action action = transition.action();
-
-            if (state == State.UTF8) {
-                GraphemeCluster.GraphemeResult graphemeResult = GraphemeCluster.getFirstGraphemeCluster(b, i, -1);
-                byte[] cluster = graphemeResult.cluster();
-                int width = graphemeResult.width();
-
-                if (curWidth + width > len && !ignoring) {
-                    ignoring = true;
-                    buf.append(tail);
-                    i += cluster.length;
-                    continue;
-                }
-
-                if (ignoring) {
-                    i += cluster.length;
-                    continue;
-                }
-
-                curWidth += width;
-                buf.append(new String(cluster, StandardCharsets.UTF_8));
-                i += cluster.length;
-                pstate = State.GROUND;
-                continue;
-            }
-
-            if (action == Action.PRINT) {
-                if (curWidth + 1 > len && !ignoring) {  // Check if next char would exceed limit
-                    ignoring = true;
-                    buf.append(tail);
-                    i++;
-                    continue;
-                }
-
-                if (ignoring) {
-                    i++;
-                    continue;
-                }
-
-                curWidth++;
-                buf.append((char) b[i]);
-            } else {
-                buf.append((char) b[i]);
-            }
-
-            i++;
-            pstate = state;
-        }
-        return buf.toString();
+    /**
+     * Returns the expected byte length of a UTF-8 sequence given its first byte.
+     *
+     * @param b the first byte of a UTF-8 sequence
+     * @return the expected byte length (1-4)
+     * @deprecated Use {@link Ansi#utf8ByteLength(byte)} instead
+     */
+    @Deprecated
+    public static int utf8ByteLen(byte b) {
+        return Ansi.utf8ByteLength(b);
     }
 }
