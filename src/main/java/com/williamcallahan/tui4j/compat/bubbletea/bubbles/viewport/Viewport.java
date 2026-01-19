@@ -154,11 +154,12 @@ public class Viewport implements Model {
     }
 
     public double horizontalScrollPercent() {
-        if (lines.isEmpty() || width >= longestLineWidth) {
+        int effectiveWidth = max(0, width - style.getHorizontalFrameSize());
+        if (lines.isEmpty() || effectiveWidth >= longestLineWidth) {
             return 1.0;
         }
         double x = (double) xOffset;
-        double w = (double) width;
+        double w = (double) effectiveWidth;
         double t = (double) longestLineWidth;
         double v = x / (t - w);
         return max(0.0, min(1.0, v));
@@ -176,6 +177,7 @@ public class Viewport implements Model {
             this.lines = new ArrayList<>(Arrays.asList(normalized.split("\n")));
         }
         this.longestLineWidth = findLongestLineWidth(this.lines);
+        setXOffset(this.xOffset);
 
         if (yOffset > lines.size() - 1) {
             gotoBottom();
@@ -349,7 +351,8 @@ public class Viewport implements Model {
     }
 
     public void setXOffset(int n) {
-        this.xOffset = clamp(n, 0, max(0, longestLineWidth - width));
+        int effectiveWidth = max(0, width - style.getHorizontalFrameSize());
+        this.xOffset = clamp(n, 0, max(0, longestLineWidth - effectiveWidth));
     }
 
     public void scrollLeft(int n) {
