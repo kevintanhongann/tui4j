@@ -65,17 +65,12 @@ public class PipeExample implements Model {
     }
 
     private static String readPipedInput() {
-        try {
-            if (System.in.available() == 0) {
-                return null;
-            }
-        } catch (IOException e) {
-            System.err.println("Failed to check system input availability: " + e.getMessage());
-            return null;
+        if (System.console() != null) {
+            return null; // console present = not piped
         }
-
         StringBuilder sb = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); // don't close - Program needs System.in
+        try {
             char[] buffer = new char[1024];
             int read;
             while ((read = reader.read(buffer)) != -1) {

@@ -379,7 +379,7 @@ public class Progress implements Model {
         percent = Math.max(0, Math.min(1, percent));
         String percentage = String.format(percentFormat, percent * 100);
         if (percentageStyle != null) {
-            percentage = percentageStyle.inline(true).render(percentage);
+            percentage = percentageStyle.copy().inline(true).render(percentage);
         }
         return percentage;
     }

@@ -42,6 +42,11 @@ public class Spring {
         return new SpringUpdateResult(position, velocity);
     }
 
+    /**
+     * @param fps ignored (upstream Go uses const fps=60)
+     * @deprecated fps param is misleading; use {@link #Spring(double, double)} directly
+     */
+    @Deprecated
     public static Spring withFPS(double fps, double frequency, double damping) {
         return new Spring(frequency, damping);
     }

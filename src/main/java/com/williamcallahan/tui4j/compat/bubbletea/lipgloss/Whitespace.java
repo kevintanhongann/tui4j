@@ -66,18 +66,15 @@ public final class Whitespace {
             chars = " ";
         }
 
-        char[] runes = chars.toCharArray();
+        int[] codePoints = chars.codePoints().toArray();
         int j = 0;
-
         StringBuilder builder = new StringBuilder();
-        // Cycle through runes and print them into the whitespace.
         for (int i = 0; i < width;) {
-            builder.append(runes[j]);
-            j++;
-            if (j >= runes.length) {
-                j = 0;
-            }
-            i += TextWidth.measureCellWidth(String.valueOf(runes[j]));
+            int cp = codePoints[j];
+            String glyph = new String(Character.toChars(cp));
+            builder.append(glyph);
+            i += TextWidth.measureCellWidth(glyph);
+            j = (j + 1) % codePoints.length;
         }
 
         int shorty = width - TextWidth.measureCellWidth(builder.toString());

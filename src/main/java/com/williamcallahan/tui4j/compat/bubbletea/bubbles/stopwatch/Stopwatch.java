@@ -18,6 +18,13 @@ public class Stopwatch implements Model {
 
     private static final AtomicInteger LAST_ID = new AtomicInteger(0);
 
+    // Duration constants in nanoseconds for formatDuration()
+    private static final long NANOS_PER_HOUR = 3_600_000_000_000L;
+    private static final long NANOS_PER_MINUTE = 60_000_000_000L;
+    private static final long NANOS_PER_SECOND = 1_000_000_000L;
+    private static final long NANOS_PER_MILLI = 1_000_000L;
+    private static final long NANOS_PER_MICRO = 1_000L;
+
     private Duration elapsed;
     private Duration interval;
     private int id;
@@ -151,12 +158,63 @@ public class Stopwatch implements Model {
         return Command.tick(interval, __ -> new TickMsg(id, tag));
     }
 
+    /** Formats duration in Go's time.Duration.String() style: "1h30m45s", "500ms", "1µs" */
     private static String formatDuration(Duration duration) {
         if (duration.isZero()) {
             return "0s";
         }
-        String s = duration.toString();
-        // Remove PT and convert to lowercase to approximate Go's duration format
-        return s.substring(2).toLowerCase();
+
+        long nanos = duration.toNanos();
+        StringBuilder sb = new StringBuilder();
+
+        if (nanos < 0) {
+            sb.append("-");
+            nanos = -nanos;
+        }
+
+        long hours = nanos / NANOS_PER_HOUR;
+        if (hours > 0) {
+            sb.append(hours).append("h");
+            nanos %= NANOS_PER_HOUR;
+        }
+
+        long minutes = nanos / NANOS_PER_MINUTE;
+        if (minutes > 0) {
+            sb.append(minutes).append("m");
+            nanos %= NANOS_PER_MINUTE;
+        }
+
+        if (hours == 0 && minutes == 0 && nanos < NANOS_PER_SECOND && nanos > 0) {
+            if (nanos >= NANOS_PER_MILLI) {
+                double ms = nanos / (double) NANOS_PER_MILLI;
+                if (ms == (long) ms) {
+                    sb.append((long) ms).append("ms");
+                } else {
+                    sb.append(String.format("%.3gms", ms).replaceAll("\\.?0+ms$", "ms"));
+                }
+            } else if (nanos >= NANOS_PER_MICRO) {
+                double us = nanos / (double) NANOS_PER_MICRO;
+                if (us == (long) us) {
+                    sb.append((long) us).append("µs");
+                } else {
+                    sb.append(String.format("%.3gµs", us).replaceAll("\\.?0+µs$", "µs"));
+                }
+            } else {
+                sb.append(nanos).append("ns");
+            }
+            return sb.toString();
+        }
+
+        double seconds = nanos / (double) NANOS_PER_SECOND;
+        if (seconds > 0 || sb.isEmpty()) {
+            if (seconds == (long) seconds) {
+                sb.append((long) seconds).append("s");
+            } else {
+                String formatted = String.format("%.9f", seconds).replaceAll("0+$", "").replaceAll("\\.$", "");
+                sb.append(formatted).append("s");
+            }
+        }
+
+        return sb.toString();
     }
 }
