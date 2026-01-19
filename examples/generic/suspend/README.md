@@ -4,8 +4,10 @@ This example demonstrates how to handle Ctrl+Z to suspend the TUI application.
 
 ## Usage
 
-```sh
-./run
+```bash
+# From project root
+./gradlew examplesJar
+java -cp examples/generic/tui4j-examples.jar com.williamcallahan.tui4j.examples.suspend.SuspendExample
 ```
 
 ## Controls

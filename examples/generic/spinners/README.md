@@ -32,5 +32,7 @@ The `spinners` example demonstrates all available spinner styles in a synchroniz
 ## Running
 
 ```bash
-./run
+# From project root
+./gradlew examplesJar
+java -cp examples/generic/tui4j-examples.jar com.williamcallahan.tui4j.examples.spinners.SpinnersExample
 ```

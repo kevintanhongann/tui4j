@@ -14,12 +14,14 @@ Demonstrates running an application in both TUI and daemon modes with shared bus
 
 Run in TUI mode (default):
 ```bash
-./run
+# From project root
+./gradlew examplesJar
+java -cp examples/generic/tui4j-examples.jar com.williamcallahan.tui4j.examples.tuidaemoncombo.TuiDaemonComboExample
 ```
 
 Run in daemon mode (headless):
 ```bash
-./run --daemon
+java -cp examples/generic/tui4j-examples.jar com.williamcallahan.tui4j.examples.tuidaemoncombo.TuiDaemonComboExample --daemon
 ```
 
 ## Controls

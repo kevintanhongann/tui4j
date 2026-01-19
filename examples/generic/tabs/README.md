@@ -25,5 +25,7 @@ The `tabs` example demonstrates a tabbed interface with multiple tabs and conten
 ## Running
 
 ```bash
-./run
+# From project root
+./gradlew examplesJar
+java -cp examples/generic/tui4j-examples.jar com.williamcallahan.tui4j.examples.tabs.TabsExample
 ```

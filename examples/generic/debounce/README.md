@@ -18,18 +18,9 @@ This example demonstrates how to debounce commands in TUI4J, ported from [bubble
 ### Build and Run
 
 ```bash
-# Build the examples fat JAR and copy to all example directories
-./gradlew --no-configuration-cache copyAllExampleJars
-
-# Run the debounce example
-./debounce/run
-```
-
-Or run directly:
-
-```bash
-./gradlew --no-configuration-cache build
-java -jar build/libs/tui4j-examples.jar com.williamcallahan.tui4j.examples.debounce.DebounceExample
+# From project root
+./gradlew examplesJar
+java -cp examples/generic/tui4j-examples.jar com.williamcallahan.tui4j.examples.debounce.DebounceExample
 ```
 
 ## How It Works

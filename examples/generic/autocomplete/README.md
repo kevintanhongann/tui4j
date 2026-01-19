@@ -19,18 +19,9 @@ This example demonstrates the TextInput bubble's autocomplete functionality, por
 ### Build and Run
 
 ```bash
-# Build the examples fat JAR and copy to all example directories
-./gradlew --no-configuration-cache copyAllExampleJars
-
-# Run the autocomplete example
-./autocomplete/run
-```
-
-Or run directly:
-
-```bash
-./gradlew --no-configuration-cache build
-java -jar build/libs/tui4j-examples.jar com.williamcallahan.tui4j.examples.autocomplete.AutocompleteExample
+# From project root
+./gradlew examplesJar
+java -cp examples/generic/tui4j-examples.jar com.williamcallahan.tui4j.examples.autocomplete.AutocompleteExample
 ```
 
 ## Controls

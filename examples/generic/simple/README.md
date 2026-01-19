@@ -16,5 +16,7 @@ The `simple` example demonstrates the simplest possible Bubble Tea application w
 ## Running
 
 ```bash
-./run
+# From project root
+./gradlew examplesJar
+java -cp examples/generic/tui4j-examples.jar com.williamcallahan.tui4j.examples.simple.SimpleExample
 ```

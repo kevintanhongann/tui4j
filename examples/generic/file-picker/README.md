@@ -33,5 +33,7 @@ The `file-picker` example demonstrates how to use the FilePicker bubble to brows
 ## Running
 
 ```bash
-./run
+# From project root
+./gradlew examplesJar
+java -cp examples/generic/tui4j-examples.jar com.williamcallahan.tui4j.examples.filepicker.FilePickerExample
 ```
